@@ -4,6 +4,9 @@
     <string name="app_name">pride</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-     <string name="ws_error_tech">Une erreur technique s\'est produite</string>
-
+    <string name="ws_error_tech">Une erreur technique s\'est produite</string>
+    <string name="ws_error_sec_token">Token non valide</string>
+    
+    <string name="btn_ok">OK</string>
+    
 </resources>

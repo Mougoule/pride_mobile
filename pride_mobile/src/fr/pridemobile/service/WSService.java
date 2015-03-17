@@ -39,17 +39,11 @@ import com.google.gson.GsonBuilder;
 import fr.pridemobile.model.WebappResponse;
 import fr.pridemobile.service.common.ServiceException;
 import fr.pridemobile.service.common.WSFile;
+import fr.pridemobile.utils.Constants;
 import fr.pridemobile.utils.DateDeserializer;
 
 /**
  * Service d'appel de WS
- * 
- * @author nben
- *
- */
-/**
- * @author nben
- *
  */
 public class WSService {
 	
@@ -68,7 +62,6 @@ public class WSService {
 	 *            Android ID
 	 * @return Réponse
 	 * @throws ServiceException
-	 *             Why not
 	 */
 	public static <T extends WebappResponse<?>> T get(String url, Class<T> clazz, String token, String androidId)
 			throws ServiceException {
@@ -134,12 +127,9 @@ public class WSService {
 			}
 
 			HttpPost post = new HttpPost(url);
-			/*if (token != null) {
+			if (token != null) {
 				post.setHeader(Constants.TOKEN_HEADER, token);
 			}
-			if (androidId != null) {
-				post.setHeader(Constants.ANDROID_ID_HEADER, androidId);
-			}*/
 			post.setEntity(entity);
 
 			return call(post, clazz);

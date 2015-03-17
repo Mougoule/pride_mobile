@@ -14,6 +14,9 @@ public enum WSError {
 	/** Erreur technique */
 	TECH("TECH", R.string.ws_error_tech),
 	
+	/** Erreur de sécurité */
+	SEC_00("SEC_00", R.string.ws_error_sec_token),
+	
 	;
 	
 	/** Code erreur businnes */

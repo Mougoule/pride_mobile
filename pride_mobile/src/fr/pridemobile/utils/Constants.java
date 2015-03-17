@@ -25,7 +25,7 @@ public final class Constants {
 	public static final String PREF_TOKEN = "token";
 	
 	/** Code du livreur connecté */
-	public static final String PREF_CODE_LIVREUR = "codeLivreur";
+	public static final String PREF_LOGIN = "codeLivreur";
 	
 	/** Code du trasnporteur connecté */
 	public static final String PREF_CODE_TRANSP = "codeTransp";
@@ -36,6 +36,9 @@ public final class Constants {
 	/** Séparateur  pour les différents éléments d'une liste de string à envoyer à la webapp par webservices*/
 	public static final String STRING_SEPARATOR = ",";
 	
+	/* Header des appels WS */
+	/** Token */
+	public static final String TOKEN_HEADER = "token";
 	
 	/* Media types */
 	
