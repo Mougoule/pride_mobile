@@ -7,6 +7,18 @@
     <string name="ws_error_tech">Une erreur technique s\'est produite</string>
     <string name="ws_error_sec_token">Token non valide</string>
     
-    <string name="btn_ok">OK</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_login">Login</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_pseudo">Pseudo</string>
     
+    <string name="btn_ok">OK</string>
+    <string name="btn_oui">Oui</string>
+    <string name="btn_non">Non</string>
+    <string name="btn_annuler">Annuler</string>
+    <string name="btn_connexion">Connexion</string>
+    <string name="btn_inscription">Inscription</string>
+    
+    <string name="pls_complete_field">Veuillez renseigner tous les champs</string>
+    <string name="ma_quitter_appli">Appuyez une seconde fois pour quitter l\'application</string>
 </resources>

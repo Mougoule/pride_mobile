@@ -14,15 +14,17 @@
         style="@style/PrideInput"
         android:hint="@string/hint_password"
         android:inputType="textPassword" />
-
-    <Button
-        android:id="@+id/btnConnect"
-        style="@style/PrideButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/btn_connexion" />
     
+    <EditText
+        android:id="@+id/email"
+        style="@style/PrideInput"
+        android:hint="@string/hint_email" />
+
+    <EditText
+        android:id="@+id/pseudo"
+        style="@style/PrideInput"
+        android:hint="@string/hint_pseudo" />
+
     <Button
         android:id="@+id/btnInscription"
         style="@style/PrideButton"

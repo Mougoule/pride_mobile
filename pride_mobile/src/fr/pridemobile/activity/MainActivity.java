@@ -3,6 +3,7 @@ package fr.pridemobile.activity;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.Intent;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +32,7 @@ public class MainActivity extends PrideAbstractActivity {
 
 	/** Eléments de l'interface */
 	private Button connectButton;
+	private Button inscriptionButton;
 	private EditText loginEditText;
 	private EditText passwordEditText;
 
@@ -39,12 +41,13 @@ public class MainActivity extends PrideAbstractActivity {
 		super.onCreate(savedInstanceState);
 		// Vérification connexion automatique
 		// String token = prefs.getString(Constants.PREF_TOKEN, null);
-		
+
 		// Page de connexion
 		setContentView(R.layout.activity_main);
 
 		// Éléments
 		connectButton = (Button) findViewById(R.id.btnConnect);
+		inscriptionButton = (Button) findViewById(R.id.btnInscription);
 		loginEditText = (EditText) findViewById(R.id.login);
 		passwordEditText = (EditText) findViewById(R.id.password);
 
@@ -62,16 +65,8 @@ public class MainActivity extends PrideAbstractActivity {
 						// Tentative de connexion
 						connect(codeliv, pass);
 
-					} else if ((loginEditText.getText().length() == 0) && (passwordEditText.getText().length() != 0)) {
-						// Si le champs mot de passe est vide
-						Toast.makeText(getApplicationContext(), "Login vide", Toast.LENGTH_SHORT).show();
-					} else if ((passwordEditText.getText().length() == 0) && (loginEditText.getText().length() != 0)) {
-						// Si le champs login est vide
-						Toast.makeText(getApplicationContext(), "Mot de passe vide", Toast.LENGTH_SHORT).show();
 					} else {
-						// Si les champs login et mot de passe sont vide
-						Toast.makeText(getApplicationContext(), "Mot de passe et login vides", Toast.LENGTH_SHORT)
-								.show();
+						Toast.makeText(getApplicationContext(), getString(R.string.pls_complete_field), Toast.LENGTH_LONG).show();
 					}
 					return true;
 				}
@@ -79,8 +74,20 @@ public class MainActivity extends PrideAbstractActivity {
 			}
 		});
 
-		// Bouton Connect
+		// Bouton connexion
 		connectButton.setOnClickListener(new ConnectOnClickListener());
+
+		// Bouton inscription
+		inscriptionButton.setOnClickListener(new InscriptionOnClickListener());
+	}
+	
+	private class InscriptionOnClickListener implements View.OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent(MainActivity.this, InscriptionActivity.class);
+			startActivity(intent);
+		}
 	}
 
 	private class ConnectOnClickListener implements View.OnClickListener {
@@ -96,15 +103,8 @@ public class MainActivity extends PrideAbstractActivity {
 				// Tentative de connexion
 				connect(codeliv, pass);
 
-			} else if ((loginEditText.getText().length() == 0) && (passwordEditText.getText().length() != 0)) {
-				// Si le champs mot de passe est vide
-				Toast.makeText(getApplicationContext(), "Login vide", Toast.LENGTH_SHORT).show();
-			} else if ((passwordEditText.getText().length() == 0) && (loginEditText.getText().length() != 0)) {
-				// Si le champs login est vide
-				Toast.makeText(getApplicationContext(), "Mot de passe vide", Toast.LENGTH_SHORT).show();
 			} else {
-				// Si les champs login et mot de passe sont vide
-				Toast.makeText(getApplicationContext(), "Mot de passe et login vides", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), getString(R.string.pls_complete_field), Toast.LENGTH_LONG).show();
 			}
 		}
 	}
@@ -163,8 +163,8 @@ public class MainActivity extends PrideAbstractActivity {
 					editor.putString(Constants.PREF_TOKEN, token);
 					editor.commit();
 
+					// TODO à supprimer
 					showToastFromThread("Le token : " + token, MainActivity.this);
-					//Toast.makeText(MainActivity.this, "Le token : " + token, Toast.LENGTH_LONG).show();
 
 				} else {
 					// Erreur inconnue
@@ -174,5 +174,22 @@ public class MainActivity extends PrideAbstractActivity {
 				return null;
 			}
 		}, false);
+	}
+	
+	/**
+	 * Gestion du bouton back sur la page d'accueil. On presse 2 fois pour
+	 * fermer l'appli.
+	 */
+	@Override
+	public void onBackPressed() {
+		long t = System.currentTimeMillis();
+		if (t - backPressedTime > Constants.BACK_QUIT_DELAY) {
+			// Premier clic ou temps écoulé depuis la dernière fois
+			backPressedTime = t;
+			Toast.makeText(this, R.string.ma_quitter_appli, Toast.LENGTH_SHORT).show();
+		} else {
+			// 2ème clic dans le temps imparti, on quitte l'appli
+			moveTaskToBack(true);
+		}
 	}
 }
