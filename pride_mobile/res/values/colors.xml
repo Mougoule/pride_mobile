@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="white">#FFFFFFFF</color>
+    <color name="white_grey">#FFC0C0C0</color>
+    <color name="grey_btn_home">#FF353635</color>
+    <color name="black">#FF000000</color>
+    <color name="player_time_color">#FF06D5CE</color>
+    <color name="inactive_tab_text">#FF7A7A7A</color>
+    <color name="active_tab_bg">#33FFFFFF</color>
+    <color name="reflex">#00AEEF</color>
+    <color name="blue_title">#FF39A4CA</color>
+    <color name="gray_title">#FF555555</color>
+    <color name="selected_gray">#FFEFEFEF</color>
+    <color name="dark_gray">#FF666666</color>
+    <color name="medium_dark_gray">#FFB8B8B8</color>
+    <color name="gray">#FFDDDDDD</color>
+    <color name="gray_text">#FFB1B1B1</color>
+    <color name="black_text">#FF3E3C3C</color>
+    <color name="green_text">#FFA0C824</color>
+    <color name="light_gray">#FFF1F1F1</color>
+    <color name="light_blue">#FF32B3E3</color>
+    <color name="pink">#FFEA2A9B</color>
+    <color name="violet">#FF7D4CA7</color>
+    <color name="dark_violet">#FF3C3352</color>
+    <color name="light_violet">#FF91779B</color>
+    <color name="orange">#FFF7AB10</color>
+    <color name="green">#FF5EAC09</color>
+    <color name="pressed">#33000000</color>
+    <color name="nothing">#00000000</color>
+    <color name="fnac">#FFDB9D00</color>
+    <color name="transparent">#77000000</color>
+    <color name="trans">#00FFFFFF</color>
+    <color name="gray_trans">#22555555</color>
+    <color name="blanc_transparent">#77FFFFFF</color>
+    <color name="primaryColor">#2196F3</color>
+    <color name="primaryColorDark">#0D47A1</color>
+
+</resources>

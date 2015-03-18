@@ -1,7 +1,6 @@
 package fr.pridemobile.utils;
 
 import android.content.Context;
-import fr.pridemobile.R;
 import fr.pridemobile.service.WSError;
 
 /**

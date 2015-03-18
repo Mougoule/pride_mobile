@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="PrideTheme" parent="android:Theme.Holo.Light"></style>
+    <style name="PrideTheme" parent="@style/Theme.AppCompat.Light"></style>
 
-    <style name="PrideThemeNoTitle" parent="android:Theme.Holo.Light.NoActionBar"></style>
+    <style name="PrideThemeNoTitle" parent="@style/Theme.AppCompat.Light.NoActionBar"></style>
+    
+    <style name="PrideThemeActionBar" parent="@style/Theme.AppCompat.Light"></style>
 
-    <style name="PrideActivity" parent="android:Theme.Holo.Light">
+    <style name="PrideActivity" parent="@style/Theme.AppCompat.Light">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
@@ -14,7 +16,7 @@
         <item name="android:layout_marginBottom">@dimen/activity_vertical_margin</item>
     </style>
     
-    <style name="PrideInput" parent="android:Theme.Holo.Light">
+    <style name="PrideInput" parent="@style/Theme.AppCompat.Light">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
@@ -23,7 +25,7 @@
         <item name="android:inputType">text</item>
     </style>
     
-    <style name="PrideButton" parent="android:Theme.Holo.Light">
+    <style name="PrideButton" parent="@style/Theme.AppCompat.Light">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
@@ -33,6 +35,15 @@
         <item name="android:paddingBottom">16dp</item>
         <item name="android:paddingLeft">40dp</item>
         <item name="android:paddingRight">40dp</item>
+    </style>
+    
+    <style name="PrideTextList" parent="@style/Theme.AppCompat.Light">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/black_text</item>
     </style>
 
 </resources>

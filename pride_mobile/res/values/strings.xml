@@ -7,6 +7,8 @@
     <string name="ws_error_tech">Une erreur technique s\'est produite</string>
     <string name="ws_error_sec_token">Token non valide</string>
     
+    <string name="progress_msg">Chargement&#8230;</string>
+    
     <string name="hint_password">Password</string>
     <string name="hint_login">Login</string>
     <string name="hint_email">Email</string>
@@ -19,6 +21,14 @@
     <string name="btn_connexion">Connexion</string>
     <string name="btn_inscription">Inscription</string>
     
+    <string name="gen_aucun_projet">Aucun projet</string>
+    <string name="lib_mes_projets">Mes projets</string>
+    <string name="image_projet">Image projet</string>
+    
     <string name="pls_complete_field">Veuillez renseigner tous les champs</string>
     <string name="ma_quitter_appli">Appuyez une seconde fois pour quitter l\'application</string>
+    
+    <string name="drawer_open">Open</string>
+	<string name="drawer_close">Close</string>
+	
 </resources>

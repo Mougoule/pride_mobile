@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/PrideActivity"
     android:orientation="vertical"
-    tools:context="fr.hardis.royalcanin.mobile.activity.MainActivity" >
+    tools:context="fr.pridemobile.activity.InscriptionActivity" >
 
     <EditText
         android:id="@+id/login"

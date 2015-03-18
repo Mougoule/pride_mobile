@@ -3,7 +3,6 @@ package fr.pridemobile.activity;
 import java.util.Locale;
 import java.util.Map;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -19,12 +18,17 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import fr.pridemobile.R;
@@ -40,10 +44,10 @@ import fr.pridemobile.service.common.WSMethod;
 import fr.pridemobile.utils.Constants;
 import fr.pridemobile.utils.Messages;
 
-public abstract class PrideAbstractActivity extends Activity implements OnSharedPreferenceChangeListener {
+public abstract class PrideAbstractActivity extends ActionBarActivity implements OnSharedPreferenceChangeListener {
 
-private static final String TAG = "PRIDE_ACTIVITY";
-	
+	private static final String TAG = "PRIDE_ACTIVITY";
+
 	/** Préférences partagées */
 	protected SharedPreferences prefs;
 
@@ -51,6 +55,13 @@ private static final String TAG = "PRIDE_ACTIVITY";
 	private ProgressDialog httpProgressDialog;
 
 	private boolean reload;
+
+	/** Les attributs pour le drawer */
+	protected DrawerLayout drawerLayout;
+	protected ActionBarDrawerToggle drawerToggle;
+	protected ListView leftDrawerList;
+	protected ArrayAdapter<String> navigationDrawerAdapter;
+	protected String[] leftSliderData = { "Home", "Android", "Sitemap", "About", "Contact Me" };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +79,7 @@ private static final String TAG = "PRIDE_ACTIVITY";
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (key.equals(Constants.PREF_LANGUAGE)) {
-			reload = true;
-		}
+		// Quand on modifie les prefs, on a rien à faire
 	}
 
 	/**
@@ -98,19 +107,22 @@ private static final String TAG = "PRIDE_ACTIVITY";
 		if (isNetworkAvailable()) {
 			// Affichage du loader
 			if (httpProgressDialog == null) {
-				httpProgressDialog = new ProgressDialog(PrideAbstractActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_DARK);
+				httpProgressDialog = new ProgressDialog(PrideAbstractActivity.this,
+						AlertDialog.THEME_DEVICE_DEFAULT_DARK);
 				httpProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 				httpProgressDialog.setCancelable(false);
-				httpProgressDialog.setMessage("message");
+				httpProgressDialog.setMessage(getString(R.string.progress_msg));
 			}
 			httpProgressDialog.show();
 
 			// Constrcution URL
-			StringBuilder sb = new StringBuilder(PrideApplication.INSTANCE.getProperty(PrideConfiguration.WS_BASE)).append(url);
+			StringBuilder sb = new StringBuilder(PrideApplication.INSTANCE.getProperty(PrideConfiguration.WS_BASE))
+					.append(url);
 			final String urlComplete = sb.toString();
 
 			// Lancement de l'appel HTTP
-			Thread thread = new Thread(new WSRunnable<T>(urlComplete, method, clazz, params, files, callback, checkDeviceErrors));
+			Thread thread = new Thread(new WSRunnable<T>(urlComplete, method, clazz, params, files, callback,
+					checkDeviceErrors));
 			thread.start();
 		} else {
 			// Non connecté
@@ -168,8 +180,9 @@ private static final String TAG = "PRIDE_ACTIVITY";
 	 * @param checkLicenceErrors
 	 *            Indique qu'il faut vérifier les erreurs de licences
 	 */
-	public <T extends WebappResponse<?>> void callWSPut(final String url, final Class<T> clazz, final Map<String, Object> params,
-			final Map<String, WSFile> files, final WSCallable<T> callback, final boolean checkLicenceErrors) {
+	public <T extends WebappResponse<?>> void callWSPut(final String url, final Class<T> clazz,
+			final Map<String, Object> params, final Map<String, WSFile> files, final WSCallable<T> callback,
+			final boolean checkLicenceErrors) {
 		callWS(WSMethod.PUT, url, clazz, params, files, callback, checkLicenceErrors);
 	}
 
@@ -185,7 +198,8 @@ private static final String TAG = "PRIDE_ACTIVITY";
 	 * @param callback
 	 *            Focntion à exécuter lors de la réponse
 	 */
-	public <T extends WebappResponse<?>> void callWSGet(final String url, final Class<T> clazz, final WSCallable<T> callback) {
+	public <T extends WebappResponse<?>> void callWSGet(final String url, final Class<T> clazz,
+			final WSCallable<T> callback) {
 		callWS(WSMethod.GET, url, clazz, null, null, callback, true);
 	}
 
@@ -203,8 +217,8 @@ private static final String TAG = "PRIDE_ACTIVITY";
 	 * @param checkLicenceErrors
 	 *            Indique qu'il faut vérifier les erreurs de licences
 	 */
-	public <T extends WebappResponse<?>> void callWSGet(final String url, final Class<T> clazz, final WSCallable<T> callback,
-			final boolean checkLicenceErrors) {
+	public <T extends WebappResponse<?>> void callWSGet(final String url, final Class<T> clazz,
+			final WSCallable<T> callback, final boolean checkLicenceErrors) {
 		callWS(WSMethod.GET, url, clazz, null, null, callback, checkLicenceErrors);
 	}
 
@@ -245,10 +259,10 @@ private static final String TAG = "PRIDE_ACTIVITY";
 		PrideAbstractActivity.this.runOnUiThread(new Runnable() {
 
 			public void run() {
-				final AlertDialog alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(PrideAbstractActivity.this,
-						android.R.style.Theme_Holo_Light_Dialog)).create();
+				final AlertDialog alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(
+						PrideAbstractActivity.this, android.R.style.Theme_Holo_Light_Dialog)).create();
 				alertDialog.setTitle("Titre erreur");
-				//alertDialog.setIcon(R.drawable.warning);
+				// alertDialog.setIcon(R.drawable.warning);
 				alertDialog.setMessage(message);
 				alertDialog.setCancelable(true);
 				alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.btn_ok),
@@ -318,10 +332,10 @@ private static final String TAG = "PRIDE_ACTIVITY";
 	 */
 	public void logout() {
 		Log.i(TAG, "Déconnexion");
-		
+
 		// Vidage de la session
-		//PrideApplication.INSTANCE.clear();
-		
+		// PrideApplication.INSTANCE.clear();
+
 		// Supprime tout sauf la langue
 		Editor editor = prefs.edit();
 		editor.remove(Constants.PREF_LOGIN);
@@ -342,35 +356,23 @@ private static final String TAG = "PRIDE_ACTIVITY";
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	/*	int id = item.getItemId();
-		if (id == R.id.logout) {
-			if (PrideApplication.INSTANCE.getCurrentChargement() == null) {
-				// Pas de mission en cours, déconnexion et redirection vers connexion
-				logoutAndRedirect();
-			} else {
-				// Mission en cours, il faut la stopper d'abord
-				showCurrentMissionAlert();
-			}
-
-		}
-		if (id == R.id.conf) {
-			startActivity(new Intent(this, ConfigurationActivity.class));
-			return true;
-		}
-
-		if (id == R.id.acceuil) {
-			startActivity(new Intent(this, RechercheMissionActivity.class));
-			return true;
-		}
-		if (id == R.id.retour) {
-			startActivity(new Intent(this, RetourSupportActivity.class));
-			return true;
-		}
-		if (id == R.id.propos) {
-			startActivity(new Intent(this, ProposActivity.class));
-			return true;
-		}		
-		return (super.onOptionsItemSelected(item));*/
+		/*
+		 * int id = item.getItemId(); if (id == R.id.logout) { if
+		 * (PrideApplication.INSTANCE.getCurrentChargement() == null) { // Pas
+		 * de mission en cours, déconnexion et redirection vers connexion
+		 * logoutAndRedirect(); } else { // Mission en cours, il faut la stopper
+		 * d'abord showCurrentMissionAlert(); }
+		 * 
+		 * } if (id == R.id.conf) { startActivity(new Intent(this,
+		 * ConfigurationActivity.class)); return true; }
+		 * 
+		 * if (id == R.id.acceuil) { startActivity(new Intent(this,
+		 * RechercheMissionActivity.class)); return true; } if (id ==
+		 * R.id.retour) { startActivity(new Intent(this,
+		 * RetourSupportActivity.class)); return true; } if (id == R.id.propos)
+		 * { startActivity(new Intent(this, ProposActivity.class)); return true;
+		 * } return (super.onOptionsItemSelected(item));
+		 */
 		return false;
 	}
 
@@ -416,8 +418,8 @@ private static final String TAG = "PRIDE_ACTIVITY";
 		/** Fonction retour WS */
 		private WSCallable<T> callback;
 
-		public WSRunnable(String url, WSMethod method, Class<T> clazz, Map<String, Object> params, Map<String, WSFile> files,
-				WSCallable<T> callback, boolean checkDeviceErrors) {
+		public WSRunnable(String url, WSMethod method, Class<T> clazz, Map<String, Object> params,
+				Map<String, WSFile> files, WSCallable<T> callback, boolean checkDeviceErrors) {
 			super();
 			this.url = url;
 			this.method = method;
@@ -430,7 +432,7 @@ private static final String TAG = "PRIDE_ACTIVITY";
 		@Override
 		public void run() {
 			try {
-				
+
 				// On fait notre appel de WS
 				Log.i("WS", "Calling " + method + " web service : " + url);
 
@@ -473,13 +475,14 @@ private static final String TAG = "PRIDE_ACTIVITY";
 					// Token invalide
 
 					// On supprime le token en cours
-					
+
 					// On retire la mission et les retours en cours
-				/*	PrideApplication.INSTANCE.setCurrentChargement(null);
-					PrideApplication.INSTANCE.setCurrentMissionId(-1);
-					PrideApplication.INSTANCE.setCurrentSupportRetours(null);
-					PrideApplication.INSTANCE.setCurrentRetourId(-1);
-					*/
+					/*
+					 * PrideApplication.INSTANCE.setCurrentChargement(null);
+					 * PrideApplication.INSTANCE.setCurrentMissionId(-1);
+					 * PrideApplication.INSTANCE.setCurrentSupportRetours(null);
+					 * PrideApplication.INSTANCE.setCurrentRetourId(-1);
+					 */
 					// Déconnexion
 					logout();
 
@@ -540,7 +543,6 @@ private static final String TAG = "PRIDE_ACTIVITY";
 			// activity
 			// existantes
 			Editor editor = prefs.edit();
-			editor.putString(Constants.PREF_LANGUAGE, language);
 			editor.commit();
 
 			recreate();
@@ -557,10 +559,13 @@ private static final String TAG = "PRIDE_ACTIVITY";
 	}
 
 	/**
-	 * Méthode pour la création de toast au sein d'un thread (on ne peut pas créer un toast dans un thread, il faut un runOnUiThread
+	 * Méthode pour la création de toast au sein d'un thread (on ne peut pas
+	 * créer un toast dans un thread, il faut un runOnUiThread
 	 * 
-	 * @param msg Le message à afficher dans le toast
-	 * @param context	Le context dans lequel afficher le toast
+	 * @param msg
+	 *            Le message à afficher dans le toast
+	 * @param context
+	 *            Le context dans lequel afficher le toast
 	 */
 	public void showToastFromThread(final String msg, final Context context) {
 		runOnUiThread(new Runnable() {
@@ -570,6 +575,34 @@ private static final String TAG = "PRIDE_ACTIVITY";
 			}
 		});
 
+	}
+
+	protected void nitView() {
+		leftDrawerList = (ListView) findViewById(R.id.left_drawer);
+		drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+		navigationDrawerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
+				leftSliderData);
+		leftDrawerList.setAdapter(navigationDrawerAdapter);
+	}
+
+	protected void initDrawer() {
+
+		drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, null, R.string.drawer_open,
+				R.string.drawer_close) {
+
+			@Override
+			public void onDrawerClosed(View drawerView) {
+				super.onDrawerClosed(drawerView);
+
+			}
+
+			@Override
+			public void onDrawerOpened(View drawerView) {
+				super.onDrawerOpened(drawerView);
+
+			}
+		};
+		drawerLayout.setDrawerListener(drawerToggle);
 	}
 
 }

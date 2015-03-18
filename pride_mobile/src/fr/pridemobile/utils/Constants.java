@@ -25,15 +25,10 @@ public final class Constants {
 	public static final String PREF_TOKEN = "token";
 	
 	/** Code du livreur connecté */
-	public static final String PREF_LOGIN = "codeLivreur";
+	public static final String PREF_LOGIN = "login";
+
 	
-	/** Code du trasnporteur connecté */
-	public static final String PREF_CODE_TRANSP = "codeTransp";
-	
-	/** Lanuge de l'applciation */
-	public static final String PREF_LANGUAGE = "language";
-	
-	/** Séparateur  pour les différents éléments d'une liste de string à envoyer à la webapp par webservices*/
+	/** Séparateur  pour les différents éléments d'une liste de string à envoyer à la webapp par webservices */
 	public static final String STRING_SEPARATOR = ",";
 	
 	/* Header des appels WS */
@@ -44,4 +39,7 @@ public final class Constants {
 	
 	/** Image PNG */
 	public static final String TYPE_IMAGE_PNG = "image/png";
+	
+	/** Image JPG */
+	public static final String TYPE_IMAGE_JPEG = "image/jpeg";
 }

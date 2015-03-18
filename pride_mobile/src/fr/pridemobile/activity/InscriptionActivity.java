@@ -3,6 +3,7 @@ package fr.pridemobile.activity;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.Intent;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.text.InputType;
@@ -147,7 +148,10 @@ public class InscriptionActivity extends PrideAbstractActivity {
 					editor.putString(Constants.PREF_TOKEN, token);
 					editor.commit();
 
-					showToastFromThread("Le token : " + token, InscriptionActivity.this);
+					Intent intent = new Intent(InscriptionActivity.this, AccueilActivity.class);
+					// On enlève les précédentes activity comme ça l'écran résultat est le premier écran
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
 
 				} else {
 					// Erreur inconnue

@@ -39,8 +39,6 @@ public class MainActivity extends PrideAbstractActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// Vérification connexion automatique
-		// String token = prefs.getString(Constants.PREF_TOKEN, null);
 
 		// Page de connexion
 		setContentView(R.layout.activity_main);
@@ -163,8 +161,10 @@ public class MainActivity extends PrideAbstractActivity {
 					editor.putString(Constants.PREF_TOKEN, token);
 					editor.commit();
 
-					// TODO à supprimer
-					showToastFromThread("Le token : " + token, MainActivity.this);
+					Intent intent = new Intent(MainActivity.this, AccueilActivity.class);
+					// On enlève les précédentes activity comme ça l'écran résultat est le premier écran
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
 
 				} else {
 					// Erreur inconnue
