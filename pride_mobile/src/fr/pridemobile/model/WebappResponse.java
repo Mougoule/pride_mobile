@@ -5,8 +5,6 @@ import java.util.List;
 /**
  * Classe abstraite d'une réponse WS
  * 
- * @author RM
- *
  * @param <T> Classe de l'objet attendu dans "data"
  */
 public abstract class WebappResponse<T> {

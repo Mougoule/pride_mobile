@@ -1,5 +1,7 @@
 package fr.pridemobile.activity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -21,6 +23,7 @@ import android.provider.Settings.Secure;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -32,8 +35,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import fr.pridemobile.R;
+import fr.pridemobile.adapter.navigation.NavigationListAdapter;
 import fr.pridemobile.application.PrideApplication;
 import fr.pridemobile.application.PrideConfiguration;
+import fr.pridemobile.model.NavigationDrawerElement;
 import fr.pridemobile.model.WebappResponse;
 import fr.pridemobile.service.WSCallable;
 import fr.pridemobile.service.WSError;
@@ -60,8 +65,9 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 	protected DrawerLayout drawerLayout;
 	protected ActionBarDrawerToggle drawerToggle;
 	protected ListView leftDrawerList;
-	protected ArrayAdapter<String> navigationDrawerAdapter;
-	protected String[] leftSliderData = { "Home", "Android", "Sitemap", "About", "Contact Me" };
+	protected ArrayAdapter<NavigationDrawerElement> navigationDrawerAdapter;
+	protected Toolbar toolbar;
+	protected List<NavigationDrawerElement> leftSliderData = new ArrayList<NavigationDrawerElement>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -100,8 +106,7 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 	 *            spécifique
 	 */
 	private <T extends WebappResponse<?>> void callWS(final WSMethod method, final String url, final Class<T> clazz,
-			final Map<String, Object> params, final Map<String, WSFile> files, final WSCallable<T> callback,
-			final boolean checkDeviceErrors) {
+			final Map<String, Object> params, final Map<String, WSFile> files, final WSCallable<T> callback) {
 
 		// vérification de la connexion réseau
 		if (isNetworkAvailable()) {
@@ -121,14 +126,14 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 			final String urlComplete = sb.toString();
 
 			// Lancement de l'appel HTTP
-			Thread thread = new Thread(new WSRunnable<T>(urlComplete, method, clazz, params, files, callback,
-					checkDeviceErrors));
+			Thread thread = new Thread(new WSRunnable<T>(urlComplete, method, clazz, params, files, callback));
 			thread.start();
 		} else {
 			// Non connecté
 			showError("Erreur : network not availible");
 		}
 	}
+
 
 	/**
 	 * Appel de WS post
@@ -144,26 +149,7 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 	 */
 	public <T extends WebappResponse<?>> void callWSPost(final String url, final Class<T> clazz,
 			final Map<String, Object> params, final WSCallable<T> callback) {
-		callWS(WSMethod.POST, url, clazz, params, null, callback, true);
-	}
-
-	/**
-	 * Appel de WS post
-	 * 
-	 * @param url
-	 *            URL à appeler
-	 * @param clazz
-	 *            Classe pour le mapping de la réponse
-	 * @param params
-	 *            Paramètres de Web service
-	 * @param callback
-	 *            Focntion à exécuter lors de la réponse
-	 * @param checkLicenceErrors
-	 *            Indique qu'il faut vérifier les erreurs de licences
-	 */
-	public <T extends WebappResponse<?>> void callWSPost(final String url, final Class<T> clazz,
-			final Map<String, Object> params, final WSCallable<T> callback, final boolean checkLicenceErrors) {
-		callWS(WSMethod.POST, url, clazz, params, null, callback, checkLicenceErrors);
+		callWS(WSMethod.POST, url, clazz, params, null, callback);
 	}
 
 	/**
@@ -181,9 +167,8 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 	 *            Indique qu'il faut vérifier les erreurs de licences
 	 */
 	public <T extends WebappResponse<?>> void callWSPut(final String url, final Class<T> clazz,
-			final Map<String, Object> params, final Map<String, WSFile> files, final WSCallable<T> callback,
-			final boolean checkLicenceErrors) {
-		callWS(WSMethod.PUT, url, clazz, params, files, callback, checkLicenceErrors);
+			final Map<String, Object> params, final Map<String, WSFile> files, final WSCallable<T> callback) {
+		callWS(WSMethod.PUT, url, clazz, params, files, callback);
 	}
 
 	/**
@@ -196,30 +181,11 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 	 * @param params
 	 *            Paramètres de Web service
 	 * @param callback
-	 *            Focntion à exécuter lors de la réponse
+	 *            Fonction à exécuter lors de la réponse
 	 */
 	public <T extends WebappResponse<?>> void callWSGet(final String url, final Class<T> clazz,
 			final WSCallable<T> callback) {
-		callWS(WSMethod.GET, url, clazz, null, null, callback, true);
-	}
-
-	/**
-	 * Appel de WS get
-	 * 
-	 * @param url
-	 *            URL à appeler
-	 * @param clazz
-	 *            Classe pour le mapping de la réponse
-	 * @param params
-	 *            Paramètres de Web service
-	 * @param callback
-	 *            Focntion à exécuter lors de la réponse
-	 * @param checkLicenceErrors
-	 *            Indique qu'il faut vérifier les erreurs de licences
-	 */
-	public <T extends WebappResponse<?>> void callWSGet(final String url, final Class<T> clazz,
-			final WSCallable<T> callback, final boolean checkLicenceErrors) {
-		callWS(WSMethod.GET, url, clazz, null, null, callback, checkLicenceErrors);
+		callWS(WSMethod.GET, url, clazz, null, null, callback);
 	}
 
 	/**
@@ -373,7 +339,8 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 		 * { startActivity(new Intent(this, ProposActivity.class)); return true;
 		 * } return (super.onOptionsItemSelected(item));
 		 */
-		return false;
+		
+        return false;
 	}
 
 	/**
@@ -419,7 +386,7 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 		private WSCallable<T> callback;
 
 		public WSRunnable(String url, WSMethod method, Class<T> clazz, Map<String, Object> params,
-				Map<String, WSFile> files, WSCallable<T> callback, boolean checkDeviceErrors) {
+				Map<String, WSFile> files, WSCallable<T> callback) {
 			super();
 			this.url = url;
 			this.method = method;
@@ -577,17 +544,17 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 
 	}
 
-	protected void nitView() {
+	protected void nitView(NavigationListAdapter navigationListAdapter) {
+		toolbar = (Toolbar) findViewById(R.id.toolbar);
 		leftDrawerList = (ListView) findViewById(R.id.left_drawer);
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-		navigationDrawerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
-				leftSliderData);
+		navigationDrawerAdapter = navigationListAdapter;
 		leftDrawerList.setAdapter(navigationDrawerAdapter);
 	}
 
 	protected void initDrawer() {
 
-		drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, null, R.string.drawer_open,
+		drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open,
 				R.string.drawer_close) {
 
 			@Override
@@ -604,5 +571,30 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 		};
 		drawerLayout.setDrawerListener(drawerToggle);
 	}
+	
+	/**
+     * Swaps fragments in the main content view
+     */
+    /*private void selectItem(int position) {
+        Toast.makeText(this, R.string.app_name, Toast.LENGTH_SHORT).show();
+ 
+        // Highlight the selected item, update the title, and close the drawer
+        mDrawerList.setItemChecked(position, true);
+        setTitle(mPlanetTitles[position]);
+        mDrawerLayout.closeDrawer(mDrawerList);
+    }
+ 
+    @Override
+    public void setTitle(CharSequence title) {
+        mTitle = title;
+        getSupportActionBar().setTitle(mTitle);
+    }
+ 
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView parent, View view, int position, long id) {
+            selectItem(position);
+        }
+    }*/
 
 }

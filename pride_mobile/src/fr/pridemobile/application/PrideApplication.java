@@ -9,6 +9,7 @@ import android.app.Application;
 import android.content.res.AssetManager;
 import android.util.Log;
 import fr.pridemobile.model.WebappResponse;
+import fr.pridemobile.model.beans.Projet;
 
 public class PrideApplication extends Application {
 
@@ -20,6 +21,12 @@ public class PrideApplication extends Application {
 	
 	/** Properties du fichier pride.properties */
 	private Properties properties;
+	
+	/** Le projet courament ouvert */
+	private Projet currentProjet;
+	
+	/** Les projets de l'utilisateur*/
+	private List<Projet> utilisateurProjets;
 	
 	public PrideApplication() {
 		super();
@@ -86,5 +93,30 @@ public class PrideApplication extends Application {
 			sb.append((String) properties.get(key.getKey()));
 		}
 		return sb.toString();
+	}
+	
+	/**
+	 * Nettoie la "session" encours, utile lors de la déconnexion par exemple
+	 */
+	public void clear() {
+		this.currentProjet =  null;
+		this.utilisateurProjets = null;
+		
+	}
+	
+	public Projet getCurrentProjet() {
+		return currentProjet;
+	}
+
+	public void setCurrentProjet(Projet currentChargement) {
+		this.currentProjet = currentChargement;
+	}
+	
+	public List<Projet> getUtilisateurProjets() {
+		return utilisateurProjets;
+	}
+
+	public void setUtilisateurProjets(List<Projet> projets) {
+		this.utilisateurProjets = projets;
 	}
 }

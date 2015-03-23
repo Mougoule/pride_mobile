@@ -112,7 +112,7 @@ public class InscriptionActivity extends PrideAbstractActivity {
 				}
 				return null;
 			}
-		}, false);
+		});
 	}
 	
 	/**
@@ -160,6 +160,6 @@ public class InscriptionActivity extends PrideAbstractActivity {
 				}
 				return null;
 			}
-		}, false);
+		});
 	}
 }

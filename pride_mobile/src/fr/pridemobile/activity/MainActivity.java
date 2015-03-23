@@ -173,7 +173,7 @@ public class MainActivity extends PrideAbstractActivity {
 				}
 				return null;
 			}
-		}, false);
+		});
 	}
 	
 	/**

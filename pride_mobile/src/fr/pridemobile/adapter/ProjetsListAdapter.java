@@ -4,8 +4,10 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,8 +15,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import fr.pridemobile.R;
+import fr.pridemobile.activity.DetailProjetActivity;
+import fr.pridemobile.application.PrideApplication;
 import fr.pridemobile.model.beans.Projet;
 
 /**
@@ -32,9 +35,8 @@ public class ProjetsListAdapter extends ArrayAdapter<Projet> {
 
 		ViewHolder holder;
 
-		Projet projet = null;
-
-		projet = getItem(position);
+		final Projet projet = getItem(position);
+		Log.i("ADAPTER PROJETS", "Idées : " + projet.getIdees());
 		if (projet != null) {
 			if (convertView == null) {
 				LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
@@ -51,19 +53,20 @@ public class ProjetsListAdapter extends ArrayAdapter<Projet> {
 			}
 
 			// Récuperation de la description des livraisons
-			holder.txtNomProjet.setText(projet.getNomProjet());
+			final String nomProjet = projet.getNomProjet();
+			holder.txtNomProjet.setText(nomProjet);
 			updateTextAndVisibility(holder.txtDescription, projet.getDescription());
 			updateTextAndVisibility(holder.txtNote, projet.getNoteProjet());
 			updateImageAndVisibility(holder.imgProjet, projet.getImage());
-			final String nom = holder.txtNomProjet.getText().toString();
 			// Gestion du click sur la liste des livraisons
 			convertView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					//Intent activity = new Intent(getContext(), DetailLivraisonActivity.class);
-					//activity.putExtra("position", position);
-					//getContext().startActivity(activity);
-					Toast.makeText(getContext(), "Nom projet : "+nom, Toast.LENGTH_SHORT).show();
+					Intent activity = new Intent(getContext(), DetailProjetActivity.class);
+					activity.putExtra("position", position);
+					activity.putExtra("nomProjet", nomProjet);
+					PrideApplication.INSTANCE.setCurrentProjet(projet);
+					getContext().startActivity(activity);
 				}
 			});
 		}

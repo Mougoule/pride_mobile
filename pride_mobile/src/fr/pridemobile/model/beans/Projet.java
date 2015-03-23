@@ -1,5 +1,7 @@
 package fr.pridemobile.model.beans;
 
+import java.util.List;
+
 public class Projet {
 
 	private String nomProjet;
@@ -9,7 +11,9 @@ public class Projet {
 	private int noteProjet;
 	
 	private byte[] image;
-
+	
+	private List<Idee> idees;
+	
 	public String getNomProjet() {
 		return nomProjet;
 	}
@@ -40,5 +44,13 @@ public class Projet {
 
 	public void setImage(byte[] image) {
 		this.image = image;
+	}
+
+	public List<Idee> getIdees() {
+		return idees;
+	}
+
+	public void setIdees(List<Idee> idees) {
+		this.idees = idees;
 	}	
 }

@@ -16,8 +16,6 @@ import com.google.gson.JsonParseException;
  * Pour gérer les types de dates renvoyés par CXF
  * Attention, non ThreadSafe, utlisation de SimpleDateFormat
  * 
- * @author RM
- *
  */
 public class DateDeserializer implements JsonDeserializer<Date> {
 

@@ -48,6 +48,13 @@
             android:screenOrientation="portrait" >
         </activity>
         
+         <activity
+            android:name="fr.pridemobile.activity.DetailProjetActivity"
+            android:label="@string/app_name"
+            android:theme="@style/PrideThemeNoTitle"
+            android:screenOrientation="portrait" >
+        </activity>
+        
     </application>
 
 </manifest>

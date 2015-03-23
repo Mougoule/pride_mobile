@@ -7,20 +7,18 @@ import fr.pridemobile.model.WebappResponse;
 /**
  * FOnction de retour appel WS
  * 
- * @author RM
- *
  * @param <T> Type attendu dans "data"
  */
 public abstract class WSCallable<T extends WebappResponse<?>> implements Callable<Void> {
 	
-	/** L'objet rÃ©ponse Http */
+	/** L'objet réponse Http */
 	protected T response;
 	
 	/**
-	 * Appel de la mÃ©thode
-	 * @param response R2ponse Http
+	 * Appel de la méthode
+	 * @param response Réponse Http
 	 * @return Rien
-	 * @throws Exception PEut-Ãªtre
+	 * @throws Exception Peut-être
 	 */
 	public Void call(T response) throws Exception {
 		this.response = response;

@@ -3,10 +3,6 @@ package fr.pridemobile.utils;
 import android.content.Context;
 import fr.pridemobile.service.WSError;
 
-/**
- * @author nben
- *
- */
 public final class Messages {
 
 	/**

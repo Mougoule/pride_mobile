@@ -6,8 +6,6 @@ import fr.pridemobile.R;
 /**
  * Liste des codes erreurs WS
  * 
- * @author nben
- *
  */
 public enum WSError {
 
