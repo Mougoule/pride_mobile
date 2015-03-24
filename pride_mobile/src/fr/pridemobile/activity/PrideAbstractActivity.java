@@ -227,8 +227,7 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 			public void run() {
 				final AlertDialog alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(
 						PrideAbstractActivity.this, android.R.style.Theme_Holo_Light_Dialog)).create();
-				alertDialog.setTitle("Titre erreur");
-				// alertDialog.setIcon(R.drawable.warning);
+				alertDialog.setTitle("Erreur");
 				alertDialog.setMessage(message);
 				alertDialog.setCancelable(true);
 				alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.btn_ok),
@@ -543,6 +542,23 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 		});
 
 	}
+	
+	/**
+	 * Méthode permettant de setter une liste view depuis un thread. Cela devant être fait depuis un UIThread
+	 * 
+	 * @param listView la liste view à setter
+	 * @param adapter l'adapter pour setter la liste view
+	 * @param txtListeVide le texte en cas de liste vide
+	 */
+	public void setListViewFromThread(final ListView listView, final ArrayAdapter<?> adapter, final TextView txtListeVide) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				listView.setAdapter(adapter);
+				listView.setEmptyView(txtListeVide);
+			}
+		});
+	}
 
 	protected void nitView(NavigationListAdapter navigationListAdapter) {
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -571,30 +587,4 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 		};
 		drawerLayout.setDrawerListener(drawerToggle);
 	}
-	
-	/**
-     * Swaps fragments in the main content view
-     */
-    /*private void selectItem(int position) {
-        Toast.makeText(this, R.string.app_name, Toast.LENGTH_SHORT).show();
- 
-        // Highlight the selected item, update the title, and close the drawer
-        mDrawerList.setItemChecked(position, true);
-        setTitle(mPlanetTitles[position]);
-        mDrawerLayout.closeDrawer(mDrawerList);
-    }
- 
-    @Override
-    public void setTitle(CharSequence title) {
-        mTitle = title;
-        getSupportActionBar().setTitle(mTitle);
-    }
- 
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView parent, View view, int position, long id) {
-            selectItem(position);
-        }
-    }*/
-
 }

@@ -15,12 +15,20 @@ public enum WSError {
 	/** Erreur de sécurité */
 	SEC_00("SEC_00", R.string.ws_error_sec_token),
 	
+	/* Erreurs de l'utilisateur */
+	UTI_01("UTI_01", R.string.ws_error_utilisateur_not_found),
+	UTI_02("UTI_02", R.string.ws_error_utilisateur_already_exist),
+	
+	/* Erreurs des projets */
+	PRO_01("PRO_01", R.string.ws_error_projet_not_found),
+	PRO_02("PRO_02", R.string.ws_error_projet_already_exist),
+	
 	;
 	
 	/** Code erreur businnes */
 	private String code;
 	
-	/** Id message Ã  afficher par dÃ©faut */
+	/** Id message à  afficher par défaut */
 	private int message;
 	
 	private WSError(String code, int message) {

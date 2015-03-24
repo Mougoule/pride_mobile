@@ -148,7 +148,7 @@ public class InscriptionActivity extends PrideAbstractActivity {
 					editor.putString(Constants.PREF_TOKEN, token);
 					editor.commit();
 
-					Intent intent = new Intent(InscriptionActivity.this, AccueilActivity.class);
+					Intent intent = new Intent(InscriptionActivity.this, MesParticipationsActivity.class);
 					// On enlève les précédentes activity comme ça l'écran résultat est le premier écran
 					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);

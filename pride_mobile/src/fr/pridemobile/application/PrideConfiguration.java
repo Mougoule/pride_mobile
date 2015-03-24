@@ -8,6 +8,8 @@ public enum PrideConfiguration {
 	WS_UTILISATEURS_CONNECT("webapp.ws.utilisateurs.connect"),
 	WS_UTILISATEURS_PROJET("webapp.ws.utilisateurs.projet"),
 	
+	WS_PROJETS("webapp.ws.projets"),
+	
 	;
 	
 	/**

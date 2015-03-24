@@ -2,17 +2,30 @@
 <resources>
 
     <string name="app_name">pride</string>
-    <string name="hello_world">Hello world!</string>
+    
     <string name="action_settings">Settings</string>
+    
     <string name="ws_error_tech">Une erreur technique s\'est produite</string>
     <string name="ws_error_sec_token">Token non valide</string>
     
+    <string name="ws_error_utilisateur_not_found">L\'utilisateur n\'existe pas</string>
+    <string name="ws_error_utilisateur_already_exist">L\'utilisateur existe déjà</string>
+    
+    <string name="ws_error_projet_not_found">Le projet n\'existe pas</string>
+    <string name="ws_error_projet_already_exist">Le projet existe déjà</string>
+    
     <string name="progress_msg">Chargement&#8230;</string>
+    
+    <string name="lib_mes_projets">Mes projets</string>
+    <string name="lib_mes_participations">Mes participations</string>
+    <string name="lib_creer_projet">Création d\'un projet</string>
     
     <string name="hint_password">Password</string>
     <string name="hint_login">Login</string>
     <string name="hint_email">Email</string>
     <string name="hint_pseudo">Pseudo</string>
+    <string name="hint_titre_projet">Nom du projet</string>
+    <string name="hint_description_projet">Description</string>
     
     <string name="btn_ok">OK</string>
     <string name="btn_oui">Oui</string>
@@ -20,10 +33,12 @@
     <string name="btn_annuler">Annuler</string>
     <string name="btn_connexion">Connexion</string>
     <string name="btn_inscription">Inscription</string>
+    <string name="btn_creer_nouveau_projet">Créer un nouveau projet</string>
+    <string name="btn_valider_creation_projet">Valider la création</string>
     
     <string name="gen_aucun_projet">Aucun projet</string>
     <string name="gen_aucune_idee">Aucune idée</string>
-    <string name="lib_mes_projets">Mes projets</string>
+    
     <string name="image_projet">Image projet</string>
     
     <string name="pls_complete_field">Veuillez renseigner tous les champs</string>
