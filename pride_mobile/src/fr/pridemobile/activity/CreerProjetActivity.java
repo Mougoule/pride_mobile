@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -91,7 +92,9 @@ public class CreerProjetActivity extends PrideAbstractActivity {
 			public Void call() throws Exception {
 				String errorCode = response.getCode();
 				if (response.isSuccess()) {
-					/* On redirige vers la suite */
+					Intent intent = new Intent(CreerProjetActivity.this, DetailProjetActivity.class);
+					intent.addFlags(Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
+					startActivity(intent);
 				} else {
 					// Erreur inconnue
 					logError(TAG, response);

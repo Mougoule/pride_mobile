@@ -5,15 +5,12 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import fr.pridemobile.R;
 import fr.pridemobile.activity.DetailProjetActivity;
@@ -46,19 +43,16 @@ public class ProjetsListAdapter extends ArrayAdapter<Projet> {
 				holder.txtNomProjet = (TextView) convertView.findViewById(R.id.nom_projet);
 				holder.txtDescription = (TextView) convertView.findViewById(R.id.description_projet);
 				holder.txtNote = (TextView) convertView.findViewById(R.id.note_projet);
-				holder.imgProjet = (ImageView) convertView.findViewById(R.id.image_projet);
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
 
-			// Récuperation de la description des livraisons
 			final String nomProjet = projet.getNomProjet();
 			holder.txtNomProjet.setText(nomProjet);
 			updateTextAndVisibility(holder.txtDescription, projet.getDescription());
 			updateTextAndVisibility(holder.txtNote, projet.getNoteProjet());
-			updateImageAndVisibility(holder.imgProjet, projet.getImage());
-			// Gestion du click sur la liste des livraisons
+
 			convertView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {
@@ -100,31 +94,10 @@ public class ProjetsListAdapter extends ArrayAdapter<Projet> {
 	private void updateTextAndVisibility(TextView textview, int nb) {
 		textview.setText(Integer.toString(nb));
 	}
-	
-	/**
-	 * Vérifier si les champs texte sont null. Permet aussi de cacher les champs
-	 * vides.
-	 * 
-	 * @param imageview
-	 * @param txt
-	 *            champs du WS
-	 */
-	private void updateImageAndVisibility(ImageView imageview, byte[] img) {
-		if (img == null || img.length == 0) {
-			imageview.setVisibility(View.GONE);
-		} else {
-	        Bitmap bm = BitmapFactory.decodeByteArray(img, 0, img.length);
-
-	        imageview.setMinimumHeight(bm.getHeight());
-	        imageview.setMinimumWidth(bm.getWidth());
-	        imageview.setImageBitmap(bm);
-		}
-	}
 
 	private static class ViewHolder {
 		private TextView txtNomProjet;
 		private TextView txtDescription;
 		private TextView txtNote;
-		private ImageView imgProjet;
 	}
 }

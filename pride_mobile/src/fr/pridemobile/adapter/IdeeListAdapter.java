@@ -43,10 +43,8 @@ public class IdeeListAdapter extends ArrayAdapter<Idee> {
 				holder = (ViewHolder) convertView.getTag();
 			}
 
-			// Récuperation de la description des livraisons
 			final String txtIdee = idee.getIdee();
 			holder.txtIdee.setText(txtIdee);
-			// Gestion du click sur la liste des livraisons
 			convertView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {

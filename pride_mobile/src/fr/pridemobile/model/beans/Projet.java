@@ -10,8 +10,6 @@ public class Projet {
 	
 	private int noteProjet;
 	
-	private byte[] image;
-	
 	private List<Idee> idees;
 	
 	public String getNomProjet() {
@@ -36,14 +34,6 @@ public class Projet {
 
 	public void setNoteProjet(int noteProjet) {
 		this.noteProjet = noteProjet;
-	}
-
-	public byte[] getImage() {
-		return image;
-	}
-
-	public void setImage(byte[] image) {
-		this.image = image;
 	}
 
 	public List<Idee> getIdees() {

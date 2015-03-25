@@ -163,7 +163,7 @@ public class MainActivity extends PrideAbstractActivity {
 
 					Intent intent = new Intent(MainActivity.this, MesParticipationsActivity.class);
 					// On enlève les précédentes activity comme ça l'écran résultat est le premier écran
-					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 					startActivity(intent);
 
 				} else {

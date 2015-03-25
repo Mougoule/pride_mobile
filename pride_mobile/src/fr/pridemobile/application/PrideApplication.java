@@ -25,9 +25,6 @@ public class PrideApplication extends Application {
 	/** Le projet courament ouvert */
 	private Projet currentProjet;
 	
-	/** Les projets de l'utilisateur*/
-	private List<Projet> utilisateurProjets;
-	
 	public PrideApplication() {
 		super();
 	}
@@ -100,23 +97,13 @@ public class PrideApplication extends Application {
 	 */
 	public void clear() {
 		this.currentProjet =  null;
-		this.utilisateurProjets = null;
-		
 	}
 	
 	public Projet getCurrentProjet() {
 		return currentProjet;
 	}
 
-	public void setCurrentProjet(Projet currentChargement) {
-		this.currentProjet = currentChargement;
-	}
-	
-	public List<Projet> getUtilisateurProjets() {
-		return utilisateurProjets;
-	}
-
-	public void setUtilisateurProjets(List<Projet> projets) {
-		this.utilisateurProjets = projets;
+	public void setCurrentProjet(Projet currentProjet) {
+		this.currentProjet = currentProjet;
 	}
 }

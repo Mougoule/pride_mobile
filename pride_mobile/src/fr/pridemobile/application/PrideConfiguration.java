@@ -9,6 +9,7 @@ public enum PrideConfiguration {
 	WS_UTILISATEURS_PROJET("webapp.ws.utilisateurs.projet"),
 	
 	WS_PROJETS("webapp.ws.projets"),
+	WS_PROJETS_COLLABORATEUR("webapp.ws.projets.collaborateur"),
 	
 	;
 	

@@ -5,8 +5,6 @@ public class Utilisateur  {
 	
 	private String login;
 	
-	private String pseudo;
-	
 	private String password;
 	
 	private String email;
@@ -17,14 +15,6 @@ public class Utilisateur  {
 
 	public void setLogin(String login) {
 		this.login = login;
-	}
-
-	public String getPseudo() {
-		return pseudo;
-	}
-
-	public void setPseudo(String pseudo) {
-		this.pseudo = pseudo;
 	}
 
 	public String getPassword() {

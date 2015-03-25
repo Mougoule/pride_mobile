@@ -3,11 +3,12 @@ package fr.pridemobile.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import fr.pridemobile.R;
@@ -24,14 +25,14 @@ public class DetailProjetActivity extends PrideAbstractActivity {
 	private static final String TAG = "PROJET";
 
 	/** Eléments de l'interface */
-	private ImageView imageViewProjet;
 	private TextView textViewDescription;
-	private Button buttonModifDescription;
 	private ListView listViewIdees;
-	private Button buttonCommentaires;
 	private Projet projet;
+	/* TODO */
+	//private Button buttonCommentaires;
+	//private Button buttonModifDescription;
+	private Button buttonAjouterUtilisateur;
 	
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,12 +50,21 @@ public class DetailProjetActivity extends PrideAbstractActivity {
         }
 	    initDrawer();
 	    textViewDescription = (TextView) findViewById(R.id.titre_rub_description_projet);
-	    buttonModifDescription = (Button) findViewById(R.id.btn_modif_description);
 	    listViewIdees = (ListView) findViewById(R.id.liste_idees);
-	    buttonCommentaires = (Button) findViewById(R.id.btn_commentaire);
 	    textViewDescription.setText(projet.getDescription());
+	    /* TODO */
+	    //buttonModifDescription = (Button) findViewById(R.id.btn_modif_description);
+	    //buttonCommentaires = (Button) findViewById(R.id.btn_commentaire);
+	    buttonAjouterUtilisateur = (Button) findViewById(R.id.btn_ajout_utilisateur);
+	    buttonAjouterUtilisateur.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(DetailProjetActivity.this, AjoutCollaborateurActivity.class);
+				startActivity(intent);
+			}
+		});
 		
-	    Log.i(TAG, "projet.getIdees()"+projet.getIdees());
 	    TextView txtlisteVide = (TextView) findViewById(R.id.listeIdeesVide);
 	    ArrayAdapter<Idee> adapter = new IdeeListAdapter(DetailProjetActivity.this, projet.getIdees());
 		listViewIdees.setAdapter(adapter);
