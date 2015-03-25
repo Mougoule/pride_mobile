@@ -19,7 +19,7 @@ import fr.pridemobile.adapter.navigation.NavigationListAdapter;
 import fr.pridemobile.application.PrideApplication;
 import fr.pridemobile.application.PrideConfiguration;
 import fr.pridemobile.model.NavigationDrawerElement;
-import fr.pridemobile.model.NullResponse;
+import fr.pridemobile.model.ProjetResponse;
 import fr.pridemobile.service.WSCallable;
 import fr.pridemobile.utils.Constants;
 
@@ -86,12 +86,13 @@ public class CreerProjetActivity extends PrideAbstractActivity {
 		params.put("nomProjet", nomProjet);
 		params.put("description", description);
 		
-		callWSPost(url, NullResponse.class, params, new WSCallable<NullResponse>() {
+		callWSPost(url, ProjetResponse.class, params, new WSCallable<ProjetResponse>() {
 
 			@Override
 			public Void call() throws Exception {
 				String errorCode = response.getCode();
 				if (response.isSuccess()) {
+					PrideApplication.INSTANCE.setCurrentProjet(response.getData());
 					Intent intent = new Intent(CreerProjetActivity.this, DetailProjetActivity.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
 					startActivity(intent);

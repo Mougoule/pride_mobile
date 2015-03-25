@@ -33,7 +33,6 @@ public class ProjetsListAdapter extends ArrayAdapter<Projet> {
 		ViewHolder holder;
 
 		final Projet projet = getItem(position);
-		Log.i("ADAPTER PROJETS", "Idées : " + projet.getIdees());
 		if (projet != null) {
 			if (convertView == null) {
 				LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();

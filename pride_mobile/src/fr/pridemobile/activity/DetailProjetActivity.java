@@ -23,7 +23,7 @@ import fr.pridemobile.model.beans.Projet;
 public class DetailProjetActivity extends PrideAbstractActivity {
 
 	@SuppressWarnings("unused")
-	private static final String TAG = "PROJET";
+	private static final String TAG = "DETAIL_PROJET";
 
 	/** Eléments de l'interface */
 	private TextView textViewDescription;
@@ -65,7 +65,6 @@ public class DetailProjetActivity extends PrideAbstractActivity {
 				startActivity(intent);
 			}
 		});
-		
 	    TextView txtlisteVide = (TextView) findViewById(R.id.listeIdeesVide);
 	    ArrayAdapter<Idee> adapter = new IdeeListAdapter(DetailProjetActivity.this, projet.getIdees());
 		listViewIdees.setAdapter(adapter);
