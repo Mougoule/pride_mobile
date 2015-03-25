@@ -71,7 +71,7 @@ public class MesProjetsActivity extends PrideAbstractActivity {
 		
 		// Construction de l'URL
 		String url = PrideApplication.INSTANCE.getProperties(PrideConfiguration.WS_PROJETS);
-		url += "/"+Role.CHEF+"/"+login;
+		url = addParametersToUrl(url, Role.CHEF.name(), login);
 		callWSGet(url, ListeProjetsResponse.class, new WSCallable<ListeProjetsResponse>() {
 
 			@Override

@@ -20,11 +20,6 @@
         style="@style/PrideInput"
         android:hint="@string/hint_email" />
 
-    <EditText
-        android:id="@+id/pseudo"
-        style="@style/PrideInput"
-        android:hint="@string/hint_pseudo" />
-
     <Button
         android:id="@+id/btnInscription"
         style="@style/PrideButton"

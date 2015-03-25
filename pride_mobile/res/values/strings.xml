@@ -23,7 +23,6 @@
     <string name="hint_password">Password</string>
     <string name="hint_login">Login</string>
     <string name="hint_email">Email</string>
-    <string name="hint_pseudo">Pseudo</string>
     <string name="hint_titre_projet">Nom du projet</string>
     <string name="hint_description_projet">Description</string>
     

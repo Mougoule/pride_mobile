@@ -22,6 +22,7 @@ import fr.pridemobile.model.beans.Projet;
 
 public class DetailProjetActivity extends PrideAbstractActivity {
 
+	@SuppressWarnings("unused")
 	private static final String TAG = "PROJET";
 
 	/** Eléments de l'interface */

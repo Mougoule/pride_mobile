@@ -559,6 +559,22 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 			}
 		});
 	}
+	
+	/**
+	 * Méthode permettant de setter une liste view depuis un thread. Cela devant être fait depuis un UIThread
+	 * 
+	 * @param listView la liste view à setter
+	 * @param adapter l'adapter pour setter la liste view
+	 * @param txtListeVide le texte en cas de liste vide
+	 */
+	public String addParametersToUrl(String url, String...params) {
+		for(String param : params){
+			param = param.replace(" ", "%20");
+			url += "/"+param;
+		}
+		
+		return url;
+	}
 
 	protected void nitView(NavigationListAdapter navigationListAdapter) {
 		toolbar = (Toolbar) findViewById(R.id.toolbar);

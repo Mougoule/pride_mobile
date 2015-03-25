@@ -29,7 +29,6 @@ public class InscriptionActivity extends PrideAbstractActivity {
 	private EditText loginEditText;
 	private EditText passwordEditText;
 	private EditText emailEditText;
-	private EditText pseudoEditText;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +41,6 @@ public class InscriptionActivity extends PrideAbstractActivity {
 		loginEditText = (EditText) findViewById(R.id.login);
 		passwordEditText = (EditText) findViewById(R.id.password);
 		emailEditText = (EditText) findViewById(R.id.email);
-		pseudoEditText = (EditText) findViewById(R.id.pseudo);
 		
 		// Fait apparaitre le clavier adapté pour les adresses email
 		emailEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
@@ -59,9 +57,8 @@ public class InscriptionActivity extends PrideAbstractActivity {
 				String login = loginEditText.getText().toString();
 				String password = passwordEditText.getText().toString();
 				String email = emailEditText.getText().toString();
-				String pseudo = pseudoEditText.getText().toString();
 				// Tentative d'inscription
-				insciption(login, password, email, pseudo);
+				insciption(login, password, email);
 			}else{
 				Toast.makeText(getApplicationContext(), getString(R.string.pls_complete_field), Toast.LENGTH_SHORT).show();
 			}
@@ -69,7 +66,7 @@ public class InscriptionActivity extends PrideAbstractActivity {
 	}
 	
 	private boolean verificationChamps(){
-		if ((loginEditText.getText().length() != 0) && (passwordEditText.getText().length() != 0) && (emailEditText.getText().length() != 0) && (pseudoEditText.getText().length() != 0)) {
+		if ((loginEditText.getText().length() != 0) && (passwordEditText.getText().length() != 0) && (emailEditText.getText().length() != 0)) {
 			return true;
 		} else {
 			return false;
@@ -85,7 +82,7 @@ public class InscriptionActivity extends PrideAbstractActivity {
 	 * @param email email de l'utilisateur
 	 * @param pseudo pseudo de l'utilisateur
 	 */
-	private void insciption(final String login, final String password, final String email, final String pseudo) {
+	private void insciption(final String login, final String password, final String email) {
 		Log.i(TAG, "Tentative d'inscription");
 
 		// Construction de l'URL
@@ -96,7 +93,6 @@ public class InscriptionActivity extends PrideAbstractActivity {
 		params.put("login", login);
 		params.put("password", password);
 		params.put("email", email);
-		params.put("pseudo", pseudo);
 
 		callWSPost(url, UtilisateurResponse.class, params, new WSCallable<UtilisateurResponse>() {
 

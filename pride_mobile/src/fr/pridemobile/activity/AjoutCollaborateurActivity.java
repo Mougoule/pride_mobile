@@ -73,7 +73,7 @@ public class AjoutCollaborateurActivity extends PrideAbstractActivity {
 		String url = PrideApplication.INSTANCE.getProperties(PrideConfiguration.WS_PROJETS)
 				+ PrideApplication.INSTANCE.getProperties(PrideConfiguration.WS_PROJETS_COLLABORATEUR);
 
-		url += "/"+projet.getNomProjet();
+		url = addParametersToUrl(url, projet.getNomProjet());
 		
 		callWSGet(url, ListeUtilisateursResponse.class, new WSCallable<ListeUtilisateursResponse>() {
 

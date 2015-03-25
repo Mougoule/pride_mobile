@@ -56,7 +56,7 @@ public class MesParticipationsActivity extends PrideAbstractActivity {
 		// Construction de l'URL
 		String url = PrideApplication.INSTANCE.getProperties(PrideConfiguration.WS_UTILISATEURS,
 				PrideConfiguration.WS_UTILISATEURS_PROJET);
-		url += "/"+login;
+		url = addParametersToUrl(url, login);
 		callWSGet(url, ListeProjetsResponse.class, new WSCallable<ListeProjetsResponse>() {
 
 			@Override
