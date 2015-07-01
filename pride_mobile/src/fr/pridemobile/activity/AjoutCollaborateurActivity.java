@@ -1,7 +1,9 @@
 package fr.pridemobile.activity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -9,7 +11,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import fr.pridemobile.R;
@@ -18,8 +19,11 @@ import fr.pridemobile.adapter.navigation.ConstantLienNavigation;
 import fr.pridemobile.adapter.navigation.NavigationListAdapter;
 import fr.pridemobile.application.PrideApplication;
 import fr.pridemobile.application.PrideConfiguration;
+import fr.pridemobile.customgraphic.CustomAutoCompleteTextView;
+import fr.pridemobile.customgraphic.listener.CustomAutoCompleteTextViewChangedListener;
 import fr.pridemobile.model.ListeUtilisateursResponse;
 import fr.pridemobile.model.NavigationDrawerElement;
+import fr.pridemobile.model.UtilisateurResponse;
 import fr.pridemobile.model.beans.Projet;
 import fr.pridemobile.model.beans.Utilisateur;
 import fr.pridemobile.service.WSCallable;
@@ -28,11 +32,16 @@ public class AjoutCollaborateurActivity extends PrideAbstractActivity {
 
 	private static final String TAG = "AJOUT_COLLABORATEUR";
 
-	/** ElÈments de l'interface */
+	/** El√©ments de l'interface */
 	private Button btnAjoutCollaborateur;
-	private EditText txtLoginCollaborateur;
+	public CustomAutoCompleteTextView txtLoginCollaborateur;
+	// Adapteur pour l'auto compl√©tion
+	public ArrayAdapter<String> adapterAutoComplete;
+	// Donn√©es de l'auto compl√©tion (les nom des collaborateurs)
+	public List<String> itemsAutoComplete = new ArrayList<String>();
 	private ListView collaborateurListView;
 	private Projet projet = PrideApplication.INSTANCE.getCurrentProjet();
+	private List<Utilisateur> utilisateurs = new ArrayList<Utilisateur>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,45 +54,59 @@ public class AjoutCollaborateurActivity extends PrideAbstractActivity {
 		drawerData.add(new NavigationDrawerElement(ConstantLienNavigation.PROJETS_COMMUNAUTE));
 		nitView(new NavigationListAdapter(this, drawerData));
 		if (toolbar != null) {
-			toolbar.setTitle(projet.getNomProjet()+" - Les participants");
+			toolbar.setTitle(projet.getNomProjet() + " - Les participants");
 			setSupportActionBar(toolbar);
 		}
 		initDrawer();
 		getCollaborateurProjet();
-		// …lÈments
+		getAllCollaborateursNotInProjet();
 		btnAjoutCollaborateur = (Button) findViewById(R.id.btn_ajouter_collaborateur);
-		txtLoginCollaborateur = (EditText) findViewById(R.id.login_collaborateur);
+		txtLoginCollaborateur = (CustomAutoCompleteTextView) findViewById(R.id.login_collaborateur);
 		collaborateurListView = (ListView) findViewById(R.id.liste_collaborateurs);
 
+		txtLoginCollaborateur.addTextChangedListener(new CustomAutoCompleteTextViewChangedListener(this));
+		if (itemsAutoComplete != null) {
+			if (itemsAutoComplete.size() > 0 && checkItems(itemsAutoComplete)) {
+				txtLoginCollaborateur.setAdapter(adapterAutoComplete);
+			}
+		}
 		btnAjoutCollaborateur.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-
+				addCollaborateur();
 			}
 		});
 	}
 
-	private void getCollaborateurProjet() {
-		Log.i(TAG, "Tentative de rÈcupÈration des participants ‡ un projet");
+	private boolean checkItems(List<String> items) {
+		for (String login : items) {
+			if (login == null) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-		
+	private void getCollaborateurProjet() {
+		Log.i(TAG, "Tentative de r√©cup√©ration des participants √† un projet");
 
 		// Construction de l'URL
 		String url = PrideApplication.INSTANCE.getProperties(PrideConfiguration.WS_PROJETS)
 				+ PrideApplication.INSTANCE.getProperties(PrideConfiguration.WS_PROJETS_COLLABORATEUR);
 
 		url = addParametersToUrl(url, projet.getNomProjet());
-		
+
 		callWSGet(url, ListeUtilisateursResponse.class, new WSCallable<ListeUtilisateursResponse>() {
 
 			@Override
 			public Void call() throws Exception {
 				String errorCode = response.getCode();
 				if (response.isSuccess()) {
-					List<Utilisateur> utilisateurs = response.getData();
+					utilisateurs = response.getData();
 					TextView txtListeVide = (TextView) findViewById(R.id.listeCollaborateursVide);
-					ArrayAdapter<Utilisateur> adapter = new UtilisateursListAdapter(AjoutCollaborateurActivity.this, utilisateurs);
+					ArrayAdapter<Utilisateur> adapter = new UtilisateursListAdapter(AjoutCollaborateurActivity.this,
+							utilisateurs);
 					setListViewFromThread(collaborateurListView, adapter, txtListeVide);
 				} else {
 					// Erreur inconnue
@@ -95,28 +118,31 @@ public class AjoutCollaborateurActivity extends PrideAbstractActivity {
 		});
 	}
 
-	/*private void creerProjet(String nomProjet, String description) {
-		Log.i(TAG, "Tentative de crÈation d'un projet");
-
-		String login = prefs.getString(Constants.PREF_LOGIN, null);
+	// R√©cup√®re les collaborateurs qui ne participent pas au projet
+	private void getAllCollaborateursNotInProjet() {
+		Log.i(TAG, "Tentative de cr√©ation d'un projet");
 
 		// Construction de l'URL
-		String url = PrideApplication.INSTANCE.getProperties(PrideConfiguration.WS_PROJETS);
-		// CrÈation de la map pour l'envoie des paramËtres
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("login", login);
-		params.put("nomProjet", nomProjet);
-		params.put("description", description);
+		String url = PrideApplication.INSTANCE.getProperties(PrideConfiguration.WS_UTILISATEURS)
+				+ PrideApplication.INSTANCE.getProperties(PrideConfiguration.WS_UTILISATEURS_NOTIN_PROJET);
 
-		callWSPost(url, NullResponse.class, params, new WSCallable<NullResponse>() {
+		url = addParametersToUrl(url, projet.getNomProjet());
+		callWSGet(url, ListeUtilisateursResponse.class, new WSCallable<ListeUtilisateursResponse>() {
 
 			@Override
 			public Void call() throws Exception {
+
 				String errorCode = response.getCode();
 				if (response.isSuccess()) {
-					Intent intent = new Intent(AjoutCollaborateurActivity.this, DetailProjetActivity.class);
-					intent.addFlags(Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
-					startActivity(intent);
+					for (Utilisateur uti : response.getData()) {
+						itemsAutoComplete.add(uti.getLogin());
+					}
+					if (itemsAutoComplete != null) {
+						if (itemsAutoComplete.size() > 0) {
+							adapterAutoComplete = new ArrayAdapter<String>(AjoutCollaborateurActivity.this,
+									android.R.layout.simple_dropdown_item_1line, itemsAutoComplete);
+						}
+					}
 				} else {
 					// Erreur inconnue
 					logError(TAG, response);
@@ -125,5 +151,40 @@ public class AjoutCollaborateurActivity extends PrideAbstractActivity {
 				return null;
 			}
 		});
-	}*/
+	}
+	
+		// R√©cup√®re les collaborateurs qui ne participent pas au projet
+		private void addCollaborateur() {
+			Log.i(TAG, "Tentative d'ajout d'un collaborateur au projet");
+
+			// Construction de l'URL
+			String url = PrideApplication.INSTANCE.getProperties(PrideConfiguration.WS_PROJETS)
+					+ PrideApplication.INSTANCE.getProperties(PrideConfiguration.WS_PROJETS_COLLABORATEUR);
+
+			// Cr√©ation de la map pour l'envoie des param√®tres
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("login", txtLoginCollaborateur.getText().toString());
+			params.put("nomProjet", projet.getNomProjet());
+			callWSPost(url, UtilisateurResponse.class, params, new WSCallable<UtilisateurResponse>() {
+
+				@Override
+				public Void call() throws Exception {
+
+					String errorCode = response.getCode();
+					if (response.isSuccess()) {
+						utilisateurs.add(response.getData());
+						TextView txtListeVide = (TextView) findViewById(R.id.listeCollaborateursVide);
+						ArrayAdapter<Utilisateur> adapter = new UtilisateursListAdapter(AjoutCollaborateurActivity.this,
+								utilisateurs);
+						adapter.notifyDataSetChanged();
+						setListViewFromThread(collaborateurListView, adapter, txtListeVide);
+					} else {
+						// Erreur inconnue
+						logError(TAG, response);
+						showErrorFromCode(errorCode);
+					}
+					return null;
+				}
+			});
+		}
 }

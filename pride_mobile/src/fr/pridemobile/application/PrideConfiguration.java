@@ -7,6 +7,7 @@ public enum PrideConfiguration {
 	WS_UTILISATEURS("webapp.ws.utilisateurs"),
 	WS_UTILISATEURS_CONNECT("webapp.ws.utilisateurs.connect"),
 	WS_UTILISATEURS_PROJET("webapp.ws.utilisateurs.projet"),
+	WS_UTILISATEURS_NOTIN_PROJET("webapp.ws.utilisateurs.notin.projet"),
 	
 	WS_PROJETS("webapp.ws.projets"),
 	WS_PROJETS_COLLABORATEUR("webapp.ws.projets.collaborateur"),
@@ -14,7 +15,7 @@ public enum PrideConfiguration {
 	;
 	
 	/**
-	 * Clé de la property
+	 * Clï¿½ de la property
 	 */
 	private String key;
 	

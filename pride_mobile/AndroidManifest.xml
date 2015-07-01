@@ -19,9 +19,23 @@
     <application
         android:name="fr.pridemobile.application.PrideApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/pride5"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        
+        <!-- Splash screen -->
+        <activity
+            android:name="fr.pridemobile.activity.SplashScreen"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/PrideThemeNoTitle" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+ 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
         <activity
             android:name="fr.pridemobile.activity.MainActivity"
             android:label="@string/app_name"

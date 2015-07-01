@@ -27,7 +27,7 @@ public class CreerProjetActivity extends PrideAbstractActivity {
 	
 	private static final String TAG = "CREER_PROJET";
 
-	/** Eléments de l'interface */
+	/** Elï¿½ments de l'interface */
 	private Button btnCreerProjet;
 	private EditText txtNomProjet;
 	private EditText txtDescription;
@@ -48,7 +48,7 @@ public class CreerProjetActivity extends PrideAbstractActivity {
         }
 	    initDrawer();
 
-		// Éléments
+		// Ã©lÃ©ments
 		btnCreerProjet = (Button) findViewById(R.id.btn_creer_projet);
 		txtNomProjet = (EditText) findViewById(R.id.titre_projet);
 		txtDescription = (EditText) findViewById(R.id.description_projet);
@@ -74,13 +74,13 @@ public class CreerProjetActivity extends PrideAbstractActivity {
 	}
 	
 	private void creerProjet(String nomProjet, String description){
-		Log.i(TAG, "Tentative de création d'un projet");
+		Log.i(TAG, "Tentative de crï¿½ation d'un projet");
 
 		String login = prefs.getString(Constants.PREF_LOGIN, null);
 		
 		// Construction de l'URL
 		String url = PrideApplication.INSTANCE.getProperties(PrideConfiguration.WS_PROJETS);
-		// Création de la map pour l'envoie des paramètres
+		// Crï¿½ation de la map pour l'envoie des paramï¿½tres
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("login", login);
 		params.put("nomProjet", nomProjet);

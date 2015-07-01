@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical" >
-            
+
             <TextView
                 android:id="@+id/les_collaborateurs"
                 style="?android:attr/listSeparatorTextViewStyle"
@@ -51,12 +51,20 @@
                 android:text="Ajouter un participant"
                 android:textAllCaps="false"
                 android:textColor="@color/white_grey" />
-            
-            <EditText
+
+            <!--
+                 <EditText
                 android:id="@+id/login_collaborateur"
                 style="@style/PrideInput"
                 android:hint="Participant"/>
-            
+            -->
+
+            <fr.pridemobile.customgraphic.CustomAutoCompleteTextView
+                android:id="@+id/login_collaborateur"
+                style="@style/PrideInput"
+                android:completionThreshold="1"
+                android:hint="Participant" />
+
             <Button
                 android:id="@+id/btn_ajouter_collaborateur"
                 style="@style/PrideButton"
@@ -64,7 +72,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Ajouter un collaborateur" />
-            
         </LinearLayout>
 
         <RelativeLayout

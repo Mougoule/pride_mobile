@@ -53,7 +53,7 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 
 	private static final String TAG = "PRIDE_ACTIVITY";
 
-	/** Préférences partagées */
+	/** Prï¿½fï¿½rences partagï¿½es */
 	protected SharedPreferences prefs;
 
 	/** Loader WS */
@@ -85,30 +85,30 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		// Quand on modifie les prefs, on a rien à faire
+		// Quand on modifie les prefs, on a rien ï¿½ faire
 	}
 
 	/**
 	 * Appel de web service
 	 * 
 	 * @param method
-	 *            Méthode Http
+	 *            Mï¿½thode Http
 	 * @param url
 	 *            Url (hors base)
 	 * @param clazz
-	 *            Classe attendue en réponse
+	 *            Classe attendue en rï¿½ponse
 	 * @param params
-	 *            Paramètres de l'appel (POST)
+	 *            Paramï¿½tres de l'appel (POST)
 	 * @param callback
-	 *            Foncion à exécuter au retour du WS
+	 *            Foncion ï¿½ exï¿½cuter au retour du WS
 	 * @param checkDeviceErrors
 	 *            Indique si le comportement en cas de device inconnu est
-	 *            spécifique
+	 *            spï¿½cifique
 	 */
 	private <T extends WebappResponse<?>> void callWS(final WSMethod method, final String url, final Class<T> clazz,
 			final Map<String, Object> params, final Map<String, WSFile> files, final WSCallable<T> callback) {
 
-		// vérification de la connexion réseau
+		// vï¿½rification de la connexion rï¿½seau
 		if (isNetworkAvailable()) {
 			// Affichage du loader
 			if (httpProgressDialog == null) {
@@ -129,7 +129,7 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 			Thread thread = new Thread(new WSRunnable<T>(urlComplete, method, clazz, params, files, callback));
 			thread.start();
 		} else {
-			// Non connecté
+			// Non connectï¿½
 			showError("Erreur : network not availible");
 		}
 	}
@@ -139,13 +139,13 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 	 * Appel de WS post
 	 * 
 	 * @param url
-	 *            URL à appeler
+	 *            URL ï¿½ appeler
 	 * @param clazz
-	 *            Classe pour le mapping de la réponse
+	 *            Classe pour le mapping de la rï¿½ponse
 	 * @param params
-	 *            Paramètres de Web service
+	 *            Paramï¿½tres de Web service
 	 * @param callback
-	 *            Focntion à exécuter lors de la réponse
+	 *            Focntion ï¿½ exï¿½cuter lors de la rï¿½ponse
 	 */
 	public <T extends WebappResponse<?>> void callWSPost(final String url, final Class<T> clazz,
 			final Map<String, Object> params, final WSCallable<T> callback) {
@@ -156,15 +156,15 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 	 * Appel de WS put
 	 * 
 	 * @param url
-	 *            URL à appeler
+	 *            URL ï¿½ appeler
 	 * @param clazz
-	 *            Classe pour le mapping de la réponse
+	 *            Classe pour le mapping de la rï¿½ponse
 	 * @param params
-	 *            Paramètres de Web service
+	 *            Paramï¿½tres de Web service
 	 * @param callback
-	 *            Focntion à exécuter lors de la réponse
+	 *            Focntion ï¿½ exï¿½cuter lors de la rï¿½ponse
 	 * @param checkLicenceErrors
-	 *            Indique qu'il faut vérifier les erreurs de licences
+	 *            Indique qu'il faut vï¿½rifier les erreurs de licences
 	 */
 	public <T extends WebappResponse<?>> void callWSPut(final String url, final Class<T> clazz,
 			final Map<String, Object> params, final Map<String, WSFile> files, final WSCallable<T> callback) {
@@ -175,13 +175,13 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 	 * Appel de WS get
 	 * 
 	 * @param url
-	 *            URL à appeler
+	 *            URL ï¿½ appeler
 	 * @param clazz
-	 *            Classe pour le mapping de la réponse
+	 *            Classe pour le mapping de la rï¿½ponse
 	 * @param params
-	 *            Paramètres de Web service
+	 *            Paramï¿½tres de Web service
 	 * @param callback
-	 *            Fonction à exécuter lors de la réponse
+	 *            Fonction ï¿½ exï¿½cuter lors de la rï¿½ponse
 	 */
 	public <T extends WebappResponse<?>> void callWSGet(final String url, final Class<T> clazz,
 			final WSCallable<T> callback) {
@@ -293,10 +293,10 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 	}
 
 	/**
-	 * Deconnexion de l'application et redirection à la page de login
+	 * Deconnexion de l'application et redirection ï¿½ la page de login
 	 */
 	public void logout() {
-		Log.i(TAG, "Déconnexion");
+		Log.i(TAG, "Dï¿½connexion");
 
 		// Vidage de la session
 		// PrideApplication.INSTANCE.clear();
@@ -310,10 +310,10 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 	}
 
 	/**
-	 * Deconnexion de l'application et redirection à la page de login
+	 * Deconnexion de l'application et redirection ï¿½ la page de login
 	 */
 	public void logoutAndRedirect() {
-		Log.i(TAG, "Déconnexion et redirection");
+		Log.i(TAG, "Dï¿½connexion et redirection");
 		logout();
 		Intent intent = new Intent(PrideAbstractActivity.this, MainActivity.class);
 		startActivity(intent);
@@ -323,9 +323,8 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		/*
 		 * int id = item.getItemId(); if (id == R.id.logout) { if
-		 * (PrideApplication.INSTANCE.getCurrentChargement() == null) { // Pas
-		 * de mission en cours, déconnexion et redirection vers connexion
-		 * logoutAndRedirect(); } else { // Mission en cours, il faut la stopper
+		 * (PrideApplication.INSTANCE.getCurrentChargement() == null) { 
+		 * logoutAndRedirect(); } else { 
 		 * d'abord showCurrentMissionAlert(); }
 		 * 
 		 * } if (id == R.id.conf) { startActivity(new Intent(this,
@@ -343,7 +342,7 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 	}
 
 	/**
-	 * Vérifier si les champs texte sont null. Permet aussi de cacher les champs
+	 * Vï¿½rifier si les champs texte sont null. Permet aussi de cacher les champs
 	 * vides.
 	 * 
 	 * @param textview
@@ -362,23 +361,23 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 	 * Runnable d'appel WS
 	 * 
 	 * @param <T>
-	 *            Classe attendue de réponse du WS
+	 *            Classe attendue de rï¿½ponse du WS
 	 */
 	private class WSRunnable<T extends WebappResponse<?>> implements Runnable {
 
-		/** URL complète à appeler */
+		/** URL complï¿½te ï¿½ appeler */
 		private String url;
 
-		/** Méthode HTTP */
+		/** Mï¿½thode HTTP */
 		private WSMethod method;
 
 		/** Classe attendue */
 		private Class<T> clazz;
 
-		/** Paramètres */
+		/** Paramï¿½tres */
 		private Map<String, Object> params;
 
-		/** Donénes fichier */
+		/** Donï¿½nes fichier */
 		private Map<String, WSFile> files;
 
 		/** Fonction retour WS */
@@ -402,10 +401,10 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 				// On fait notre appel de WS
 				Log.i("WS", "Calling " + method + " web service : " + url);
 
-				// Récupération token
+				// Rï¿½cupï¿½ration token
 				String token = prefs.getString(Constants.PREF_TOKEN, "");
 
-				// Récupération androidId
+				// Rï¿½cupï¿½ration androidId
 				String androidId = Secure.getString(PrideAbstractActivity.this.getContentResolver(), Secure.ANDROID_ID);
 
 				T wsResponse;
@@ -433,7 +432,7 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 					// Log de l'erreur
 					logError("WS", wsResponse);
 
-					// Affichage popup erreur en focntion du code reçu
+					// Affichage popup erreur en focntion du code reï¿½u
 					showErrorFromCode(errorCode);
 
 				} else if (!wsResponse.isSuccess() && WSError.SEC_00.checkCode(errorCode)) {
@@ -449,7 +448,7 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 					 * PrideApplication.INSTANCE.setCurrentSupportRetours(null);
 					 * PrideApplication.INSTANCE.setCurrentRetourId(-1);
 					 */
-					// Déconnexion
+					// Dï¿½connexion
 					logout();
 
 					// Affichage de l'erreur et redirection
@@ -476,43 +475,14 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 	}
 
 	/**
-	 * Vérifie l'accès au réseau
+	 * Vï¿½rifie l'accï¿½s au rï¿½seau
 	 * 
-	 * @return Vrai si connecté au réseau
+	 * @return Vrai si connectï¿½ au rï¿½seau
 	 */
 	public boolean isNetworkAvailable() {
 		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-	}
-
-	/**
-	 * Gérer le set de la langue.
-	 */
-	public void setLocale(String language) {
-		Log.i("CONF", "Changement de langue : " + language);
-
-		// Changement de la langue courante de l'application
-		Resources res = getResources();
-		DisplayMetrics dm = res.getDisplayMetrics();
-		Configuration conf = res.getConfiguration();
-		String currentLanguage = conf.locale.getLanguage();
-
-		if (currentLanguage == null || !currentLanguage.equalsIgnoreCase(language)) {
-			Locale locale = new Locale(language);
-			Locale.setDefault(locale);
-			conf.locale = locale;
-			res.updateConfiguration(conf, dm);
-
-			// Enregistrement de la langue dans les préférences
-			// Cette modification entrainera également la mise à jour des
-			// activity
-			// existantes
-			Editor editor = prefs.edit();
-			editor.commit();
-
-			recreate();
-		}
 	}
 
 	@Override
@@ -525,11 +495,11 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 	}
 
 	/**
-	 * Méthode pour la création de toast au sein d'un thread (on ne peut pas
-	 * créer un toast dans un thread, il faut un runOnUiThread
+	 * Mï¿½thode pour la crï¿½ation de toast au sein d'un thread (on ne peut pas
+	 * crï¿½er un toast dans un thread, il faut un runOnUiThread
 	 * 
 	 * @param msg
-	 *            Le message à afficher dans le toast
+	 *            Le message ï¿½ afficher dans le toast
 	 * @param context
 	 *            Le context dans lequel afficher le toast
 	 */
@@ -544,9 +514,9 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 	}
 	
 	/**
-	 * Méthode permettant de setter une liste view depuis un thread. Cela devant être fait depuis un UIThread
+	 * Mï¿½thode permettant de setter une liste view depuis un thread. Cela devant ï¿½tre fait depuis un UIThread
 	 * 
-	 * @param listView la liste view à setter
+	 * @param listView la liste view ï¿½ setter
 	 * @param adapter l'adapter pour setter la liste view
 	 * @param txtListeVide le texte en cas de liste vide
 	 */
@@ -561,13 +531,13 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 	}
 	
 	/**
-	 * Méthode permettant de setter une liste view depuis un thread. Cela devant être fait depuis un UIThread
+	 * MÃ©thode permettant de setter une liste view depuis un thread. Cela devant ï¿½tre fait depuis un UIThread
 	 * 
-	 * @param listView la liste view à setter
+	 * @param listView la liste view ï¿½ setter
 	 * @param adapter l'adapter pour setter la liste view
 	 * @param txtListeVide le texte en cas de liste vide
 	 */
-	public String addParametersToUrl(String url, String...params) {
+	public String addParametersToUrl(String url, String... params) {
 		for(String param : params){
 			param = param.replace(" ", "%20");
 			url += "/"+param;
