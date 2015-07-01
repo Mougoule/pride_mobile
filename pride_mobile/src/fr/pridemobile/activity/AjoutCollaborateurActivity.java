@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import fr.pridemobile.R;
+import fr.pridemobile.adapter.AutocompleteCustomArrayAdapter;
 import fr.pridemobile.adapter.UtilisateursListAdapter;
 import fr.pridemobile.adapter.navigation.ConstantLienNavigation;
 import fr.pridemobile.adapter.navigation.NavigationListAdapter;
@@ -35,8 +36,9 @@ public class AjoutCollaborateurActivity extends PrideAbstractActivity {
 	/** Eléments de l'interface */
 	private Button btnAjoutCollaborateur;
 	public CustomAutoCompleteTextView txtLoginCollaborateur;
-	// Adapteur pour l'auto complétion
-	public ArrayAdapter<String> adapterAutoComplete;
+	// Adapteur pour l'auto compl�tion
+	//public ArrayAdapter<String> adapterAutoComplete;
+	public AutocompleteCustomArrayAdapter adapterAutoComplete;
 	// Données de l'auto complétion (les nom des collaborateurs)
 	public List<String> itemsAutoComplete = new ArrayList<String>();
 	private ListView collaborateurListView;
@@ -139,8 +141,7 @@ public class AjoutCollaborateurActivity extends PrideAbstractActivity {
 					}
 					if (itemsAutoComplete != null) {
 						if (itemsAutoComplete.size() > 0) {
-							adapterAutoComplete = new ArrayAdapter<String>(AjoutCollaborateurActivity.this,
-									android.R.layout.simple_dropdown_item_1line, itemsAutoComplete);
+							adapterAutoComplete = new AutocompleteCustomArrayAdapter(AjoutCollaborateurActivity.this, itemsAutoComplete);
 						}
 					}
 				} else {

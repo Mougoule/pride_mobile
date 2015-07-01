@@ -1,7 +1,5 @@
 package fr.pridemobile.utils;
 
-
-
 /**
  * Constantes de l'application
  */
@@ -24,8 +22,11 @@ public final class Constants {
 	/** Token de session */
 	public static final String PREF_TOKEN = "token";
 	
-	/** Code du livreur connecté */
+	/** Login utilisateur connecté */
 	public static final String PREF_LOGIN = "login";
+	
+	/** Mot de passe utilisateur connecté */
+	public static final String PREF_MDP = "password";
 
 	
 	/** Séparateur  pour les différents éléments d'une liste de string à envoyer à la webapp par webservices */

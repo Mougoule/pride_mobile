@@ -2,13 +2,14 @@ package fr.pridemobile.customgraphic.listener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import fr.pridemobile.activity.AjoutCollaborateurActivity;
+import fr.pridemobile.adapter.AutocompleteCustomArrayAdapter;
 
 public class CustomAutoCompleteTextViewChangedListener implements TextWatcher {
 
@@ -51,16 +52,14 @@ public class CustomAutoCompleteTextViewChangedListener implements TextWatcher {
 				if (itemsAutoCompleteTmp != null) {
 					if (itemsAutoCompleteTmp.size() > 0 && checkItems(itemsAutoCompleteTmp)) {
 	
-						ajoutCollaborateurActivity.adapterAutoComplete = new ArrayAdapter<String>(
-								ajoutCollaborateurActivity, android.R.layout.simple_dropdown_item_1line,
-								itemsAutoCompleteTmp);
+						ajoutCollaborateurActivity.adapterAutoComplete = new AutocompleteCustomArrayAdapter(
+								ajoutCollaborateurActivity,	itemsAutoCompleteTmp);
 						ajoutCollaborateurActivity.txtLoginCollaborateur
 								.setAdapter(ajoutCollaborateurActivity.adapterAutoComplete);
 					} else {
 						itemsAutoCompleteTmp.clear();
-						ajoutCollaborateurActivity.adapterAutoComplete = new ArrayAdapter<String>(
-								ajoutCollaborateurActivity, android.R.layout.simple_dropdown_item_1line,
-								itemsAutoCompleteTmp);
+						ajoutCollaborateurActivity.adapterAutoComplete = new AutocompleteCustomArrayAdapter(
+								ajoutCollaborateurActivity,	itemsAutoCompleteTmp);
 						ajoutCollaborateurActivity.txtLoginCollaborateur
 								.setAdapter(ajoutCollaborateurActivity.adapterAutoComplete);
 					}
@@ -74,7 +73,7 @@ public class CustomAutoCompleteTextViewChangedListener implements TextWatcher {
 		for (String login : ajoutCollaborateurActivity.itemsAutoComplete) {
 			Log.i(TAG, "utilisateurLogin : " + login + " userInput : " + userInput);
 			if (login.length() >= userInput.length()) {
-				if (login.toLowerCase().startsWith(userInput.toString().toLowerCase())) {
+				if (login.toLowerCase(Locale.FRENCH).startsWith(userInput.toString().toLowerCase(Locale.FRENCH))) {
 					listItems.add(login);
 				}
 			}

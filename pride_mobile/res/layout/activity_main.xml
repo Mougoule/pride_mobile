@@ -4,6 +4,14 @@
     android:orientation="vertical"
     tools:context="fr.pridemobile.activity.MainActivity" >
 
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/pride2"
+        android:contentDescription="Logo pride" />
+    
     <EditText
         android:id="@+id/login"
         style="@style/PrideInput"

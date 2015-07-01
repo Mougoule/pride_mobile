@@ -10,6 +10,7 @@
         android:id="@+id/label_element"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/black_text" />
 
 </LinearLayout>

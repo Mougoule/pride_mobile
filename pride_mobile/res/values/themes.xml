@@ -33,6 +33,7 @@
         <item name="android:layout_marginBottom">@dimen/half_padding</item>
         <item name="android:inputType">textMultiLine</item>
         <item name="android:scrollbars">vertical</item>
+        <item name="android:textColor">@color/black_text</item>
     </style>
     
     <style name="PrideButton" parent="@style/Theme.AppCompat.Light">

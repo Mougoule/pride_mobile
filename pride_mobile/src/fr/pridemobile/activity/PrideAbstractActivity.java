@@ -1,8 +1,8 @@
 package fr.pridemobile.activity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import android.app.AlertDialog;
@@ -13,8 +13,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -24,7 +22,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
@@ -38,6 +35,7 @@ import fr.pridemobile.R;
 import fr.pridemobile.adapter.navigation.NavigationListAdapter;
 import fr.pridemobile.application.PrideApplication;
 import fr.pridemobile.application.PrideConfiguration;
+import fr.pridemobile.model.ConnexionResponse;
 import fr.pridemobile.model.NavigationDrawerElement;
 import fr.pridemobile.model.WebappResponse;
 import fr.pridemobile.service.WSCallable;
@@ -531,7 +529,7 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 	}
 	
 	/**
-	 * MÃ©thode permettant de setter une liste view depuis un thread. Cela devant ï¿½tre fait depuis un UIThread
+	 * Méthode permettant de setter une liste view depuis un thread. Cela devant ï¿½tre fait depuis un UIThread
 	 * 
 	 * @param listView la liste view ï¿½ setter
 	 * @param adapter l'adapter pour setter la liste view
@@ -572,5 +570,56 @@ public abstract class PrideAbstractActivity extends ActionBarActivity implements
 			}
 		};
 		drawerLayout.setDrawerListener(drawerToggle);
+	}
+	
+	/**
+	 * Tentative de connexion
+	 * 
+	 * @param login
+	 *            Code livreur
+	 * @param password
+	 *            Mot de passe
+	 */
+	protected void connect(String login, final String password, final Context context, final Class<? extends PrideAbstractActivity> clazz) {
+		Log.i(TAG, "Tentative de connexion");
+
+		// Construction de l'URL
+		String url = PrideApplication.INSTANCE.getProperties(PrideConfiguration.WS_UTILISATEURS,
+				PrideConfiguration.WS_UTILISATEURS_CONNECT);
+
+		// Ajout dans la map pour l'envoie
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("login", login);
+		params.put("password", password);
+
+		callWSPost(url, ConnexionResponse.class, params, new WSCallable<ConnexionResponse>() {
+
+			@Override
+			public Void call() throws Exception {
+				String errorCode = response.getCode();
+				Editor editor = prefs.edit();
+				if (response.isSuccess()) {
+					// Connexion réussie
+
+					// Sauvegarde local du codeLivreur et du token
+					String token = response.getData().getToken().toString();
+					editor.putString(Constants.PREF_LOGIN, response.getData().getUtilisateur().getLogin());
+					editor.putString(Constants.PREF_MDP, password);
+					editor.putString(Constants.PREF_TOKEN, token);
+					editor.commit();
+
+					Intent intent = new Intent(context, clazz);
+					// On enlève les précédentes activity comme ça l'écran résultat est le premier écran
+					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+					startActivity(intent);
+
+				} else {
+					// Erreur inconnue
+					logError(TAG, response);
+					showErrorFromCode(errorCode);
+				}
+				return null;
+			}
+		});
 	}
 }

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import fr.pridemobile.R;
 import fr.pridemobile.adapter.ProjetsListAdapter;
 import fr.pridemobile.adapter.navigation.ConstantLienNavigation;
@@ -27,6 +28,9 @@ public class MesParticipationsActivity extends PrideAbstractActivity {
 
 	/** Eléments de l'interface */
 	private ListView projetsListeView;
+	
+	/** Durée entre 2 clic sur bouton Back */
+	private long backPressedTime = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,5 +81,22 @@ public class MesParticipationsActivity extends PrideAbstractActivity {
 				return null;
 			}
 		});
+	}
+	
+	/**
+	 * Gestion du bouton back sur la page d'accueil. On presse 2 fois pour
+	 * fermer l'appli.
+	 */
+	@Override
+	public void onBackPressed() {
+		long t = System.currentTimeMillis();
+		if (t - backPressedTime > Constants.BACK_QUIT_DELAY) {
+			// Premier clic ou temps écoulé depuis la dernière fois
+			backPressedTime = t;
+			Toast.makeText(this, R.string.ma_quitter_appli, Toast.LENGTH_SHORT).show();
+		} else {
+			// 2ème clic dans le temps imparti, on quitte l'appli
+			moveTaskToBack(true);
+		}
 	}
 }

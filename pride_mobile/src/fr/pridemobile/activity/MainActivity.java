@@ -1,10 +1,6 @@
 package fr.pridemobile.activity;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import android.content.Intent;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -17,10 +13,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import fr.pridemobile.R;
-import fr.pridemobile.application.PrideApplication;
-import fr.pridemobile.application.PrideConfiguration;
-import fr.pridemobile.model.ConnexionResponse;
-import fr.pridemobile.service.WSCallable;
 import fr.pridemobile.utils.Constants;
 
 public class MainActivity extends PrideAbstractActivity {
@@ -49,25 +41,30 @@ public class MainActivity extends PrideAbstractActivity {
 		loginEditText = (EditText) findViewById(R.id.login);
 		passwordEditText = (EditText) findViewById(R.id.password);
 
+		if(prefs.contains(Constants.PREF_LOGIN) && prefs.contains(Constants.PREF_MDP)){
+			connect(prefs.getString(Constants.PREF_LOGIN, null), prefs.getString(Constants.PREF_MDP, null));
+		}
+		
 		// Lance la connexion à la validation du champ de texte
 		passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_DONE) {
-					// Si les champs login et mot de passe sont saisies
-					if ((loginEditText.getText().length() != 0) && (passwordEditText.getText().length() != 0)) {
-						// Recuperation du codeLivreur et mot de passe
-						String codeliv = loginEditText.getText().toString();
-						String pass = passwordEditText.getText().toString();
-
-						// Tentative de connexion
-						connect(codeliv, pass);
-
-					} else {
-						Toast.makeText(getApplicationContext(), getString(R.string.pls_complete_field), Toast.LENGTH_LONG).show();
+				
+					if (actionId == EditorInfo.IME_ACTION_DONE) {
+						// Si les champs login et mot de passe sont saisies
+						if ((loginEditText.getText().length() != 0) && (passwordEditText.getText().length() != 0)) {
+							// Recuperation du login et mot de passe
+							String login = loginEditText.getText().toString();
+							String pass = passwordEditText.getText().toString();
+	
+							// Tentative de connexion
+							connect(login, pass);
+	
+						} else {
+							Toast.makeText(getApplicationContext(), getString(R.string.pls_complete_field), Toast.LENGTH_LONG).show();
+						}
+						return true;
 					}
-					return true;
-				}
 				return false;
 			}
 		});
@@ -95,11 +92,11 @@ public class MainActivity extends PrideAbstractActivity {
 			// Si les champs login et mot de passe sont saisies
 			if ((loginEditText.getText().length() != 0) && (passwordEditText.getText().length() != 0)) {
 				// Recuperation du codeLivreur et mot de passe
-				String codeliv = loginEditText.getText().toString();
+				String login = loginEditText.getText().toString();
 				String pass = passwordEditText.getText().toString();
 
 				// Tentative de connexion
-				connect(codeliv, pass);
+				connect(login, pass);
 
 			} else {
 				Toast.makeText(getApplicationContext(), getString(R.string.pls_complete_field), Toast.LENGTH_LONG).show();
@@ -125,57 +122,13 @@ public class MainActivity extends PrideAbstractActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
-	/**
-	 * Tentative de connexion
-	 * 
-	 * @param login
-	 *            Code livreur
-	 * @param password
-	 *            Mot de passe
-	 */
-	private void connect(String login, String password) {
+	
+	private void connect(String login, String password){
 		Log.i(TAG, "Tentative de connexion");
-
-		// Construction de l'URL
-		String url = PrideApplication.INSTANCE.getProperties(PrideConfiguration.WS_UTILISATEURS,
-				PrideConfiguration.WS_UTILISATEURS_CONNECT);
-
-		// Ajout dans la map pour l'envoie
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("login", login);
-		params.put("password", password);
-
-		callWSPost(url, ConnexionResponse.class, params, new WSCallable<ConnexionResponse>() {
-
-			@Override
-			public Void call() throws Exception {
-				String errorCode = response.getCode();
-				Editor editor = prefs.edit();
-				if (response.isSuccess()) {
-					// Connexion réussie
-
-					// Sauvegarde local du codeLivreur et du token
-					String token = response.getData().getToken().toString();
-					editor.putString(Constants.PREF_LOGIN, response.getData().getUtilisateur().getLogin());
-					editor.putString(Constants.PREF_TOKEN, token);
-					editor.commit();
-
-					Intent intent = new Intent(MainActivity.this, MesParticipationsActivity.class);
-					// On enlève les précédentes activity comme ça l'écran résultat est le premier écran
-					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-					startActivity(intent);
-
-				} else {
-					// Erreur inconnue
-					logError(TAG, response);
-					showErrorFromCode(errorCode);
-				}
-				return null;
-			}
-		});
+		super.connect(login, password, MainActivity.this, MesParticipationsActivity.class);
 	}
 	
+
 	/**
 	 * Gestion du bouton back sur la page d'accueil. On presse 2 fois pour
 	 * fermer l'appli.
